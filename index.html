@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoaRide - Premium Car & Bike Rentals in Goa</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-car"></i> GoaRide
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#vehicles">Fleet</a></li>
+                <li><a href="#booking">Book Now</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Explore Goa in Style</h1>
+            <p class="subtitle">Premium car and bike rentals for your perfect Goa adventure</p>
+            <div class="cta-buttons">
+                <a href="#vehicles" class="btn btn-primary">
+                    <i class="fas fa-car"></i> Browse Fleet
+                </a>
+                <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a vehicle for my Goa trip. Can you help me?" 
+                   class="btn btn-outline" target="_blank">
+                    <i class="fab fa-whatsapp"></i> WhatsApp Booking
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicles Section -->
+    <section id="vehicles" class="section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Premium Fleet</h2>
+                <p>Choose from our wide range of well-maintained cars and bikes, perfect for exploring Goa's beautiful landscapes</p>
+            </div>
+
+            <!-- Cars -->
+            <h3 style="text-align: center; margin-bottom: 3rem; font-size: 2rem; color: #2d3748;">
+                <i class="fas fa-car"></i> Cars
+            </h3>
+            <div class="vehicles-grid">
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1549927681-0b673b922153?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Popular</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Maruti Swift</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-snowflake"></i> Air Conditioning</li>
+                            <li><i class="fas fa-users"></i> 4-5 Seater</li>
+                            <li><i class="fas fa-gas-pump"></i> Fuel Efficient</li>
+                            <li><i class="fas fa-map"></i> GPS Navigation</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹1,200</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Maruti Swift', '₹1,200')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Premium</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Hyundai i20</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-car"></i> Premium Interior</li>
+                            <li><i class="fas fa-users"></i> 5 Seater</li>
+                            <li><i class="fas fa-bluetooth"></i> Bluetooth & USB</li>
+                            <li><i class="fas fa-shield-alt"></i> Safety Features</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹1,500</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Hyundai i20', '₹1,500')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1570294726366-9e5d6b10f6e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Family</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Toyota Innova Crysta</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-users"></i> 7-8 Seater</li>
+                            <li><i class="fas fa-couch"></i> Spacious & Comfortable</li>
+                            <li><i class="fas fa-user-friends"></i> Perfect for Groups</li>
+                            <li><i class="fas fa-star"></i> Premium SUV</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹2,800</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Toyota Innova Crysta', '₹2,800')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bikes -->
+            <h3 style="text-align: center; margin: 4rem 0 3rem 0; font-size: 2rem; color: #2d3748;">
+                <i class="fas fa-motorcycle"></i> Bikes
+            </h3>
+            <div class="vehicles-grid">
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Economy</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Honda Activa</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-tachometer-alt"></i> 110cc Engine</li>
+                            <li><i class="fas fa-chair"></i> Comfortable Seating</li>
+                            <li><i class="fas fa-box"></i> Storage Space</li>
+                            <li><i class="fas fa-thumbs-up"></i> Easy to Ride</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹400</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Honda Activa', '₹400')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Classic</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Royal Enfield</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-bolt"></i> 350cc Power</li>
+                            <li><i class="fas fa-gem"></i> Classic Design</li>
+                            <li><i class="fas fa-road"></i> Perfect for Highways</li>
+                            <li><i class="fas fa-mountain"></i> Adventure Ready</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹800</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Royal Enfield', '₹800')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                        <div class="vehicle-badge">Sports</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">TVS Apache</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-rocket"></i> 180cc Sports Bike</li>
+                            <li><i class="fas fa-digital-tachograph"></i> Digital Console</li>
+                            <li><i class="fas fa-tachometer-alt"></i> Race-tuned Engine</li>
+                            <li><i class="fas fa-fire"></i> Sporty Design</li>
+                        </ul>
+                        <div class="price">
+                            <div>
+                                <div class="price-amount">₹600</div>
+                                <div class="price-period">per day</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="bookViaWhatsApp('TVS Apache', '₹600')" style="width: 100%;">
+                            <i class="fab fa-whatsapp"></i> Book Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Booking Section -->
+    <section id="booking" class="section booking-section">
+        <div class="container">
+            <div class="section-title">
+                <h2 style="color: white;">Quick Booking</h2>
+                <p style="color: rgba(255,255,255,0.9);">Fill out the form below and we'll get back to you instantly via WhatsApp</p>
+            </div>
+
+            <div class="booking-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="vehicle">Select Vehicle</label>
+                        <select id="vehicle">
+                            <option value="">Choose a vehicle...</option>
+                            <option>Maruti Swift - ₹1,200/day</option>
+                            <option>Hyundai i20 - ₹1,500/day</option>
+                            <option>Toyota Innova Crysta - ₹2,800/day</option>
+                            <option>Honda Activa - ₹400/day</option>
+                            <option>Royal Enfield - ₹800/day</option>
+                            <option>TVS Apache - ₹600/day</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" placeholder="Enter your full name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+91 XXXXX XXXXX" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" placeholder="your@email.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pickup">Pickup Date</label>
+                        <input type="date" id="pickup" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="dropoff">Drop-off Date</label>
+                        <input type="date" id="dropoff" required>
+                    </div>
+                </div>
+                
+                <div style="text-align: center;">
+                    <button class="btn btn-primary" onclick="submitBookingViaWhatsApp()">
+                        <i class="fab fa-whatsapp"></i> Book via WhatsApp
+                     </button>                     
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="section features-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Why Choose GoaRide?</h2>
+                <p>Experience the difference with our premium service and commitment to excellence</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Fully Insured</h3>
+                    <p>All vehicles are comprehensively insured for your safety and complete peace of mind during your Goa adventure.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <h3>Well Maintained</h3>
+                    <p>Regular servicing and thorough maintenance ensures reliable performance and safety throughout your rental period.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Round-the-clock customer support available via phone and WhatsApp for any assistance you need.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <h3>Best Prices</h3>
+                    <p>Competitive rates with transparent pricing. No hidden charges - what you see is exactly what you pay.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Convenient Pickup</h3>
+                    <p>Complimentary pickup and drop-off service at your hotel, airport, railway station, or any location in Goa.</p>
+                </div>
+
+                <div class="feature-item">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Instant Booking</h3>
+                    <p>Quick and hassle-free booking process. Get instant confirmation and details via WhatsApp.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-car"></i> GoaRide</h3>
+                    <p>Your trusted partner for premium vehicle rentals in Goa. Explore the beauty of Goa with our well-maintained fleet of cars and bikes.</p>
+                    <div style="margin-top: 1rem;">
+                        <a href="https://wa.me/918262812997" target="_blank" style="display: inline-block; margin-right: 1rem; color: #25d366;">
+                            <i class="fab fa-whatsapp fa-lg"></i>
+                        </a>
+                        <a href="mailto:info@goaride.com" style="display: inline-block; color: #667eea;">
+                            <i class="fas fa-envelope fa-lg"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="footer-section">
+                    <h3><i class="fas fa-phone"></i> Contact Info</h3>
+                    <a href="tel:+918262812997">+91 8262812997</a>
+                    <a href="tel:+917666216294">+91 7666216294</a>
+                    <a href="mailto:info@goaride.com">info@goaride.com</a>
+                    <a href="mailto:bookings@goaride.com">bookings@goaride.com</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
+                    <p>Panaji, Goa 403001</p>
+                    <p>Near Kadamba Bus Stand</p>
+                    <p>Goa, India</p>
+                </div>
+
+                <div class="footer-section">
+                    <h3><i class="fas fa-clock"></i> Business Hours</h3>
+                    <p>Monday - Sunday</p>
+                    <p>6:00 AM - 10:00 PM</p>
+                    <p>24/7 WhatsApp Support</p>
+                    <a href="https://wa.me/918262812997?text=Hi! I need help with my booking" target="_blank">
+                        <i class="fab fa-whatsapp"></i> Quick Support
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2025 GoaRide. All rights reserved. | Explore Goa Responsibly | Licensed Vehicle Rental Service</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/918262812997?text=Hi! I want to rent a vehicle in Goa. Please help me with booking details." 
+       target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script src="script.js"></script>
+</body>
+</html>
