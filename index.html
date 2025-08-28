@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GoaRide - Premium Car & Bike Rentals in Goa</title>
+    <title>GoaRide - Premium Car Rentals in Goa</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -34,12 +34,12 @@
     <section id="home" class="hero">
         <div class="hero-content">
             <h1>Explore Goa in Style</h1>
-            <p class="subtitle">Premium car and bike rentals for your perfect Goa adventure</p>
+            <p class="subtitle">Premium car rentals with manual & automatic options for your perfect Goa adventure</p>
             <div class="cta-buttons">
                 <a href="#vehicles" class="btn btn-primary">
                     <i class="fas fa-car"></i> Browse Fleet
                 </a>
-                <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a vehicle for my Goa trip. Can you help me?" 
+                <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a car for my Goa trip. Can you help me?" 
                    class="btn btn-outline" target="_blank">
                     <i class="fab fa-whatsapp"></i> WhatsApp Booking
                 </a>
@@ -52,16 +52,13 @@
         <div class="container">
             <div class="section-title">
                 <h2>Our Premium Fleet</h2>
-                <p>Choose from our wide range of well-maintained cars and bikes, perfect for exploring Goa's beautiful landscapes</p>
+                <p>Choose from our wide range of well-maintained cars available in both manual and automatic transmissions</p>
             </div>
 
-            <!-- Cars -->
-            <h3 style="text-align: center; margin-bottom: 3rem; font-size: 2rem; color: #2d3748;">
-                <i class="fas fa-car"></i> Cars
-            </h3>
             <div class="vehicles-grid">
+                <!-- Swift -->
                 <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1549927681-0b673b922153?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="vehicle-image" style="background-image: url('https://shivamautozone.com/wp-content/uploads/2024/05/Swift-2-768x433.webp');">
                         <div class="vehicle-badge">Popular</div>
                     </div>
                     <div class="vehicle-content">
@@ -72,141 +69,413 @@
                             <li><i class="fas fa-gas-pump"></i> Fuel Efficient</li>
                             <li><i class="fas fa-map"></i> GPS Navigation</li>
                         </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹1,200</div>
-                                <div class="price-period">per day</div>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹1,200/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹1,500/day</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Maruti Swift', '₹1,200')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Maruti Swift', 'Manual', '₹1,200')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Maruti Swift', 'Automatic', '₹1,500')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Baleno -->
                 <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="vehicle-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQTdnD0Kzxil8jsS8uHXAfgNvoG-Yb9dGltow&s');">
                         <div class="vehicle-badge">Premium</div>
                     </div>
                     <div class="vehicle-content">
-                        <h3 class="vehicle-title">Hyundai i20</h3>
+                        <h3 class="vehicle-title">Maruti Baleno</h3>
                         <ul class="vehicle-features">
                             <li><i class="fas fa-car"></i> Premium Interior</li>
                             <li><i class="fas fa-users"></i> 5 Seater</li>
                             <li><i class="fas fa-bluetooth"></i> Bluetooth & USB</li>
                             <li><i class="fas fa-shield-alt"></i> Safety Features</li>
                         </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹1,500</div>
-                                <div class="price-period">per day</div>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹1,200/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹1,500/day</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Hyundai i20', '₹1,500')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Maruti Baleno', 'Manual', '₹1,200')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Maruti Baleno', 'Automatic', '₹1,500')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
                     </div>
                 </div>
 
+                <!-- i20 -->
                 <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1570294726366-9e5d6b10f6e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
+                    <div class="vehicle-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPKv5m5AIqKXIb5tvvNtWJun2F1-u9h8kpdA&s');">
+                        <div class="vehicle-badge">Stylish</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Hyundai i20</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-palette"></i> Stylish Design</li>
+                            <li><i class="fas fa-users"></i> 5 Seater</li>
+                            <li><i class="fas fa-mobile-alt"></i> Smart Features</li>
+                            <li><i class="fas fa-star"></i> Top Safety Rating</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹1,300/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹1,600/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Hyundai i20', 'Manual', '₹1,300')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Hyundai i20', 'Automatic', '₹1,600')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Brezza -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://gaadiwaadi.com/wp-content/uploads/2021/12/2022-maruti-suzuki-brezza-rendered.jpg');">
+                        <div class="vehicle-badge">SUV</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Maruti Brezza</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-mountain"></i> Compact SUV</li>
+                            <li><i class="fas fa-users"></i> 5 Seater</li>
+                            <li><i class="fas fa-road"></i> High Ground Clearance</li>
+                            <li><i class="fas fa-shield-alt"></i> Advanced Safety</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹2,000/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹2,500/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Maruti Brezza', 'Manual', '₹2,000')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Maruti Brezza', 'Automatic', '₹2,500')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Ertiga -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://auto.hindustantimes.com/cms-images/marutisuzuki_ertiga/images/exterior_marutisuzuki-ertiga2022_front-left-side_1150x666.jpeg?imwidth=420');">
+                        <div class="vehicle-badge">7-Seater</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Maruti Ertiga</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-users"></i> 7 Seater MPV</li>
+                            <li><i class="fas fa-couch"></i> Spacious Interior</li>
+                            <li><i class="fas fa-user-friends"></i> Perfect for Families</li>
+                            <li><i class="fas fa-gas-pump"></i> Fuel Efficient</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹2,200/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹3,000/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Maruti Ertiga', 'Manual', '₹2,200')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Maruti Ertiga', 'Automatic', '₹3,000')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Creta -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://img.etimg.com/thumb/width-1200,height-1200,imgsize-133107,resizemode-75,msid-48156369/industry/auto/cars-uvs/hyundai-creta-suv-launched-at-a-starting-price-of-rs-8-59-lakh.jpg');">
+                        <div class="vehicle-badge">Premium SUV</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Hyundai Creta</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-star"></i> Premium SUV</li>
+                            <li><i class="fas fa-users"></i> 5 Seater</li>
+                            <li><i class="fas fa-mobile-alt"></i> Smart Technology</li>
+                            <li><i class="fas fa-shield-alt"></i> 5-Star Safety</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹2,500/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹3,200/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Hyundai Creta', 'Manual', '₹2,500')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Hyundai Creta', 'Automatic', '₹3,200')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Kia Carens -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://stimg.cardekho.com/images/carexteriorimages/630x420/Kia/Carens/11623/1755774968732/front-left-side-47.jpg?imwidth=420&impolicy=resize');">
                         <div class="vehicle-badge">Family</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Kia Carens</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-users"></i> 6-7 Seater</li>
+                            <li><i class="fas fa-star"></i> Premium Features</li>
+                            <li><i class="fas fa-couch"></i> Captain Seats</li>
+                            <li><i class="fas fa-mobile-alt"></i> Connected Car Tech</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹2,500/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹3,000/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Kia Carens', 'Manual', '₹2,500')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Kia Carens', 'Automatic', '₹3,000')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Innova Crysta -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://static3.toyotabharat.com/images/showroom/innova-mmc/unmatched-unrivaled-banner1600x850.jpg');">
+                        <div class="vehicle-badge">Premium MPV</div>
                     </div>
                     <div class="vehicle-content">
                         <h3 class="vehicle-title">Toyota Innova Crysta</h3>
                         <ul class="vehicle-features">
                             <li><i class="fas fa-users"></i> 7-8 Seater</li>
-                            <li><i class="fas fa-couch"></i> Spacious & Comfortable</li>
-                            <li><i class="fas fa-user-friends"></i> Perfect for Groups</li>
-                            <li><i class="fas fa-star"></i> Premium SUV</li>
+                            <li><i class="fas fa-star"></i> Premium Comfort</li>
+                            <li><i class="fas fa-road"></i> Highway Cruiser</li>
+                            <li><i class="fas fa-shield-alt"></i> Reliable & Safe</li>
                         </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹2,800</div>
-                                <div class="price-period">per day</div>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹3,000/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹3,500/day</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Toyota Innova Crysta', '₹2,800')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Bikes -->
-            <h3 style="text-align: center; margin: 4rem 0 3rem 0; font-size: 2rem; color: #2d3748;">
-                <i class="fas fa-motorcycle"></i> Bikes
-            </h3>
-            <div class="vehicles-grid">
-                <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
-                        <div class="vehicle-badge">Economy</div>
-                    </div>
-                    <div class="vehicle-content">
-                        <h3 class="vehicle-title">Honda Activa</h3>
-                        <ul class="vehicle-features">
-                            <li><i class="fas fa-tachometer-alt"></i> 110cc Engine</li>
-                            <li><i class="fas fa-chair"></i> Comfortable Seating</li>
-                            <li><i class="fas fa-box"></i> Storage Space</li>
-                            <li><i class="fas fa-thumbs-up"></i> Easy to Ride</li>
-                        </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹400</div>
-                                <div class="price-period">per day</div>
-                            </div>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Toyota Innova Crysta', 'Manual', '₹3,000')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Toyota Innova Crysta', 'Automatic', '₹3,500')">
+                                <i class="fab fa-whatsapp"></i> Book Auto
+                            </button>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Honda Activa', '₹400')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
                     </div>
                 </div>
 
+                <!-- Thar -->
                 <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
-                        <div class="vehicle-badge">Classic</div>
+                    <div class="vehicle-image" style="background-image: url('https://images.livemint.com/img/2020/10/02/600x338/Thar_1601615282959_1601615288316.jpg');">
+                        <div class="vehicle-badge">Adventure</div>
                     </div>
                     <div class="vehicle-content">
-                        <h3 class="vehicle-title">Royal Enfield</h3>
+                        <h3 class="vehicle-title">Mahindra Thar</h3>
                         <ul class="vehicle-features">
-                            <li><i class="fas fa-bolt"></i> 350cc Power</li>
-                            <li><i class="fas fa-gem"></i> Classic Design</li>
-                            <li><i class="fas fa-road"></i> Perfect for Highways</li>
-                            <li><i class="fas fa-mountain"></i> Adventure Ready</li>
+                            <li><i class="fas fa-mountain"></i> Off-Road Beast</li>
+                            <li><i class="fas fa-users"></i> 4 Seater</li>
+                            <li><i class="fas fa-sun"></i> Convertible Option</li>
+                            <li><i class="fas fa-compass"></i> Adventure Ready</li>
                         </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹800</div>
-                                <div class="price-period">per day</div>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Manual</span>
+                                    <span class="transmission-price">₹3,000/day</span>
+                                </div>
+                                <div class="transmission-option">
+                                    <span class="transmission-type">Auto Convertible</span>
+                                    <span class="transmission-price">₹3,500/day</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('Royal Enfield', '₹800')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
+                        <div class="book-buttons">
+                            <button class="btn-small btn-manual" onclick="bookViaWhatsApp('Mahindra Thar', 'Manual', '₹3,000')">
+                                <i class="fab fa-whatsapp"></i> Book Manual
+                            </button>
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Mahindra Thar', 'Auto Convertible', '₹3,500')">
+                                <i class="fab fa-whatsapp"></i> Book Convertible
+                            </button>
+                        </div>
                     </div>
                 </div>
 
+                <!-- Fortuner -->
                 <div class="vehicle-card">
-                    <div class="vehicle-image" style="background-image: url('https://images.unsplash.com/photo-1558618047-3c8c76ca7d13?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');">
-                        <div class="vehicle-badge">Sports</div>
+                    <div class="vehicle-image" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR6IJy4I-jKTFTpo-fHbVvONjIuMNMw37JlZQ&s');">
+                        <div class="vehicle-badge">Luxury SUV</div>
                     </div>
                     <div class="vehicle-content">
-                        <h3 class="vehicle-title">TVS Apache</h3>
+                        <h3 class="vehicle-title">Toyota Fortuner</h3>
                         <ul class="vehicle-features">
-                            <li><i class="fas fa-rocket"></i> 180cc Sports Bike</li>
-                            <li><i class="fas fa-digital-tachograph"></i> Digital Console</li>
-                            <li><i class="fas fa-tachometer-alt"></i> Race-tuned Engine</li>
-                            <li><i class="fas fa-fire"></i> Sporty Design</li>
+                            <li><i class="fas fa-crown"></i> Luxury SUV</li>
+                            <li><i class="fas fa-users"></i> 7 Seater</li>
+                            <li><i class="fas fa-gem"></i> Premium Interior</li>
+                            <li><i class="fas fa-road"></i> Powerful Performance</li>
                         </ul>
-                        <div class="price">
-                            <div>
-                                <div class="price-amount">₹600</div>
-                                <div class="price-period">per day</div>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option" style="grid-column: 1 / -1;">
+                                    <span class="transmission-type">Automatic Only</span>
+                                    <span class="transmission-price">₹6,000/day</span>
+                                </div>
                             </div>
                         </div>
-                        <button class="btn btn-primary" onclick="bookViaWhatsApp('TVS Apache', '₹600')" style="width: 100%;">
-                            <i class="fab fa-whatsapp"></i> Book Now
-                        </button>
+                        <div class="book-buttons" style="grid-template-columns: 1fr;">
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Toyota Fortuner', 'Automatic', '₹6,000')" style="width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Book Automatic
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thar Roxx -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://images.91wheels.com/assets/b_images/main/models/profile/profile1723456356.jpg?width=420&q=60?w=420&q=80');">
+                        <div class="vehicle-badge">New Launch</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Mahindra Thar Roxx</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-fire"></i> Latest Model</li>
+                            <li><i class="fas fa-users"></i> 5 Seater</li>
+                            <li><i class="fas fa-mobile-alt"></i> Advanced Tech</li>
+                            <li><i class="fas fa-mountain"></i> Premium Off-Road</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option" style="grid-column: 1 / -1;">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹6,500/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons" style="grid-template-columns: 1fr;">
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Mahindra Thar Roxx', 'Automatic', '₹6,500')" style="width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Book Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mini Cooper -->
+                <div class="vehicle-card">
+                    <div class="vehicle-image" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/2018_Mini_Countryman_Cooper_S_2.0_Front.jpg/960px-2018_Mini_Countryman_Cooper_S_2.0_Front.jpg');">
+                        <div class="vehicle-badge">Luxury</div>
+                    </div>
+                    <div class="vehicle-content">
+                        <h3 class="vehicle-title">Mini Cooper</h3>
+                        <ul class="vehicle-features">
+                            <li><i class="fas fa-gem"></i> Luxury Brand</li>
+                            <li><i class="fas fa-users"></i> 4 Seater</li>
+                            <li><i class="fas fa-star"></i> Iconic Design</li>
+                            <li><i class="fas fa-crown"></i> Premium Experience</li>
+                        </ul>
+                        <div class="transmission-options">
+                            <div class="transmission-title">Transmission Options</div>
+                            <div class="transmission-grid">
+                                <div class="transmission-option" style="grid-column: 1 / -1;">
+                                    <span class="transmission-type">Automatic</span>
+                                    <span class="transmission-price">₹16,000/day</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="book-buttons" style="grid-template-columns: 1fr;">
+                            <button class="btn-small btn-auto" onclick="bookViaWhatsApp('Mini Cooper', 'Automatic', '₹16,000')" style="width: 100%;">
+                                <i class="fab fa-whatsapp"></i> Book Luxury
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -217,22 +486,57 @@
     <section id="booking" class="section booking-section">
         <div class="container">
             <div class="section-title">
-                <h2 style="color: white;">Quick Booking</h2>
+                <h2 style="color: rgb(255, 255, 255);">Quick Booking</h2>
                 <p style="color: rgba(255,255,255,0.9);">Fill out the form below and we'll get back to you instantly via WhatsApp</p>
             </div>
 
             <div class="booking-form">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="vehicle">Select Vehicle</label>
+                        <label for="vehicle">Select Vehicle & Transmission</label>
                         <select id="vehicle">
                             <option value="">Choose a vehicle...</option>
-                            <option>Maruti Swift - ₹1,200/day</option>
-                            <option>Hyundai i20 - ₹1,500/day</option>
-                            <option>Toyota Innova Crysta - ₹2,800/day</option>
-                            <option>Honda Activa - ₹400/day</option>
-                            <option>Royal Enfield - ₹800/day</option>
-                            <option>TVS Apache - ₹600/day</option>
+                            <optgroup label="Maruti Swift">
+                                <option>Maruti Swift Manual - ₹1,200/day</option>
+                                <option>Maruti Swift Automatic - ₹1,500/day</option>
+                            </optgroup>
+                            <optgroup label="Maruti Baleno">
+                                <option>Maruti Baleno Manual - ₹1,200/day</option>
+                                <option>Maruti Baleno Automatic - ₹1,500/day</option>
+                            </optgroup>
+                            <optgroup label="Hyundai i20">
+                                <option>Hyundai i20 Manual - ₹1,300/day</option>
+                                <option>Hyundai i20 Automatic - ₹1,600/day</option>
+                            </optgroup>
+                            <optgroup label="Maruti Brezza">
+                                <option>Maruti Brezza Manual - ₹2,000/day</option>
+                                <option>Maruti Brezza Automatic - ₹2,500/day</option>
+                            </optgroup>
+                            <optgroup label="Maruti Ertiga">
+                                <option>Maruti Ertiga Manual - ₹2,200/day</option>
+                                <option>Maruti Ertiga Automatic - ₹3,000/day</option>
+                            </optgroup>
+                            <optgroup label="Hyundai Creta">
+                                <option>Hyundai Creta Manual - ₹2,500/day</option>
+                                <option>Hyundai Creta Automatic - ₹3,200/day</option>
+                            </optgroup>
+                            <optgroup label="Kia Carens">
+                                <option>Kia Carens Manual - ₹2,500/day</option>
+                                <option>Kia Carens Automatic - ₹3,000/day</option>
+                            </optgroup>
+                            <optgroup label="Toyota Innova Crysta">
+                                <option>Toyota Innova Crysta Manual - ₹3,000/day</option>
+                                <option>Toyota Innova Crysta Automatic - ₹3,500/day</option>
+                            </optgroup>
+                            <optgroup label="Mahindra Thar">
+                                <option>Mahindra Thar Manual - ₹3,000/day</option>
+                                <option>Mahindra Thar Auto Convertible - ₹3,500/day</option>
+                            </optgroup>
+                            <optgroup label="Premium Cars">
+                                <option>Toyota Fortuner Automatic - ₹6,000/day</option>
+                                <option>Mahindra Thar Roxx Automatic - ₹6,500/day</option>
+                                <option>Mini Cooper Automatic - ₹16,000/day</option>
+                            </optgroup>
                         </select>
                     </div>
                     
@@ -331,13 +635,13 @@
         </div>
     </section>
 
-    <!-- Footer -->
+     <!-- Footer -->
     <footer id="contact" class="footer">
         <div class="container">
             <div class="footer-content">
                 <div class="footer-section">
                     <h3><i class="fas fa-car"></i> GoaRide</h3>
-                    <p>Your trusted partner for premium vehicle rentals in Goa. Explore the beauty of Goa with our well-maintained fleet of cars and bikes.</p>
+                    <p>Your trusted partner for premium vehicle rentals in Goa. Explore the beauty of Goa with our well-maintained fleet of cars with manual and automatic options.</p>
                     <div style="margin-top: 1rem;">
                         <a href="https://wa.me/918262812997" target="_blank" style="display: inline-block; margin-right: 1rem; color: #25d366;">
                             <i class="fab fa-whatsapp fa-lg"></i>
@@ -358,9 +662,27 @@
 
                 <div class="footer-section">
                     <h3><i class="fas fa-map-marker-alt"></i> Location</h3>
-                    <p>Panaji, Goa 403001</p>
-                    <p>Near Kadamba Bus Stand</p>
+                    <p>Madgao, Goa 403601</p>
+                    <p>Near Madgao Railway Station</p>
                     <p>Goa, India</p>
+                    <div style="margin-top: 1rem;">
+                        <iframe 
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15388.545!2d73.971551!3d15.266344!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTXCsDE1JzU4LjgiTiA3M8KwNTgnMTcuNiJF!5e0!3m2!1sen!2sin!4v1640995200000!5m2!1sen!2sin"
+                            width="100%" 
+                            height="200" 
+                            style="border:0; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <div style="margin-top: 0.5rem; text-align: center;">
+                            <a href="https://www.google.com/maps/place/15%C2%B015'58.8%22N+73%C2%B058'17.6%22E/@15.2663439,73.9666801,893m/data=!3m2!1e3!4b1!4m7!1m2!2m1!1smadgaon+railway+station!3m3!8m2!3d15.266344!4d73.971551" 
+                               target="_blank" 
+                               style="color: #667eea; text-decoration: none; font-size: 0.9rem;">
+                                <i class="fas fa-external-link-alt"></i> Open in Google Maps
+                            </a>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="footer-section">
@@ -381,11 +703,10 @@
     </footer>
 
     <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/918262812997?text=Hi! I want to rent a vehicle in Goa. Please help me with booking details." 
+    <a href="https://wa.me/918262812997?text=Hi! I want to rent a car in Goa. Please help me with booking details." 
        target="_blank" class="whatsapp-float" title="Chat on WhatsApp">
         <i class="fab fa-whatsapp"></i>
     </a>
-
     <script src="script.js"></script>
 </body>
 </html>

@@ -13,10 +13,10 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 });
 
 // WhatsApp booking from vehicle card
-function bookViaWhatsApp(vehicleName, price) {
+function bookViaWhatsApp(vehicleName, transmission, price) {
     const message = `🚗 Vehicle Booking Inquiry - GoaRide
 
-Hi! I'm interested in booking the ${vehicleName} (${price}/day) for my Goa trip.
+Hi! I'm interested in booking the ${vehicleName} (${transmission} - ${price}/day) for my Goa trip.
 
 Can you please help me with:
 ✅ Availability check for my dates

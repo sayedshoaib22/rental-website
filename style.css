@@ -189,7 +189,7 @@ body {
     font-weight: 700;
     background: linear-gradient(135deg, #667eea, #764ba2);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+    /* -webkit-text-fill-color: transparent; */
     background-clip: text;
     margin-bottom: 1rem;
 }
@@ -204,7 +204,7 @@ body {
 /* Vehicle Grid */
 .vehicles-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
 }
@@ -227,7 +227,9 @@ body {
     height: 250px;
     background-size: cover;
     background-position: center;
+    background-repeat: no-repeat;
     position: relative;
+    overflow: hidden;
 }
 
 .vehicle-badge {
@@ -271,22 +273,79 @@ body {
     width: 16px;
 }
 
-.price {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+.transmission-options {
     margin-bottom: 1.5rem;
+    background: #f7fafc;
+    padding: 1rem;
+    border-radius: 10px;
 }
 
-.price-amount {
-    font-size: 1.8rem;
+.transmission-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.transmission-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.transmission-option {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: white;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+}
+
+.transmission-type {
+    font-weight: 500;
+    color: #4a5568;
+}
+
+.transmission-price {
     font-weight: 700;
     color: #667eea;
 }
 
-.price-period {
-    color: #718096;
+.book-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+}
+
+.btn-small {
+    padding: 0.75rem 1rem;
     font-size: 0.9rem;
+    border-radius: 8px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.btn-manual {
+    background: linear-gradient(135deg, #48bb78, #38a169);
+    color: white;
+}
+
+.btn-auto {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+}
+
+.btn-small:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
 }
 
 /* Booking Form */
@@ -517,6 +576,14 @@ body {
     }
     
     .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .transmission-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .book-buttons {
         grid-template-columns: 1fr;
     }
 }
