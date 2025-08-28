@@ -104,7 +104,7 @@ body {
 .hero {
     min-height: 100vh;
     background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
-                url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80') center/cover;
+                url('https://media.timeout.com/images/105983980/750/562/image.jpg') center/cover;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -551,6 +551,32 @@ body {
     transform: scale(1.1);
     box-shadow: 0 12px 35px rgba(37, 211, 102, 0.4);
 }
+
+.phone-float {
+    position: fixed;
+    width: clamp(50px, 12vw, 60px);
+    height: clamp(50px, 12vw, 60px);
+    bottom: clamp(85px, 14vw, 90px); /* sits above WhatsApp button */
+    right: clamp(15px, 4vw, 20px);
+    background: linear-gradient(135deg, #667eea, #764ba2); /* Blue-Purple gradient */
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: clamp(1.2rem, 5vw, 1.5rem);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+    z-index: 1000;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    animation: pulse 2s infinite;
+}
+
+.phone-float:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+}
+
 
 /* Animations */
 @keyframes fadeInUp {
