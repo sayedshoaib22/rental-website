@@ -142,7 +142,17 @@
             }
         }
         </script>
-        <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css">
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17517693018"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'AW-17517693018');
+    </script>
+
 </head>
 
 <body>
@@ -160,10 +170,10 @@
                 <li><a href="#contact">Contact</a></li>
             </ul>
             <div class="mobile-menu" id="mobile-menu" style="background: black;">
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
     </nav>
 
@@ -196,11 +206,11 @@
             </div>
 
             <div class="vehicles-grid">
-                <!-- Ignis -->
+
                 <div class="vehicle-card">
                     <div class="vehicle-image"
-                        style="background-image: url('https://img.autocarindia.com/ExtraImages/20230227010535_hmm.png');">
-                        <div class="vehicle-badge">Popular</div>
+                        style="background-image: url('https://imgd.aeplcdn.com/642x361/n/cw/ec/142947/maruti-suzuki-ignis-right-front-three-quarter1.jpeg?isig=0&wm=1&q=75');">
+                        <div class="vehicle-badge">New</div>
                     </div>
                     <div class="vehicle-content">
                         <h3 class="vehicle-title">Maruti Ignis</h3>
@@ -236,6 +246,8 @@
                         </div>
                     </div>
                 </div>
+
+
 
                 <!-- Swift -->
                 <div class="vehicle-card">
@@ -815,6 +827,7 @@
                     </div>
                 </div>
 
+
                 <!-- Mini Cooper -->
                 <div class="vehicle-card">
                     <div class="vehicle-image"
@@ -848,8 +861,11 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
+
+
 
     <!-- Booking Section -->
     <section id="booking" class="section booking-section">
@@ -1064,6 +1080,46 @@
         </div>
     </section>
 
+    <!-- Privacy Policy Section -->
+    <section id="privacy" class="page-content">
+        <div class="container">
+            <h1>Privacy Policy</h1>
+            <p>Your privacy is important to us. GoaRide only collects the minimum personal details (name, phone, email,
+                booking info) to confirm rentals and provide customer support.</p>
+            <p>We do not sell or share your data with third parties, except as required by law or for completing your
+                booking.</p>
+            <p>If you have any questions, contact us at <a href="mailto:info@goaride.com">info@goaride.com</a>.</p>
+        </div>
+    </section>
+
+    <!-- Terms & Conditions Section -->
+    <section id="terms" class="page-content">
+        <div class="container">
+            <h1>Terms & Conditions</h1>
+            <ul>
+                <li>All drivers must have a valid driving license and be at least 18 years old.</li>
+                <li>A refundable security deposit is required before pickup.</li>
+                <li>Fuel costs are not included in rental charges.</li>
+                <li>Vehicles must be returned on time and in the same condition as rented.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Refund & Cancellation Policy Section -->
+    <section id="refund" class="page-content">
+        <div class="container">
+            <h1>Refund & Cancellation Policy</h1>
+            <p>If you wish to cancel your booking:</p>
+            <ul>
+                <li>Free cancellation up to 24 hours before pickup.</li>
+                <li>50% refund if cancelled within 24 hours of pickup.</li>
+                <li>No refund for no-shows.</li>
+            </ul>
+            <p>Refunds will be processed within 7–10 business days to the original payment method.</p>
+        </div>
+    </section>
+
+
     <!-- Footer -->
     <footer id="contact" class="footer">
         <div class="container">
@@ -1083,6 +1139,14 @@
                         </a>
                     </div>
                 </div>
+
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <a href="javascript:void(0)" onclick="showPage('privacy')">Privacy Policy</a>
+                    <a href="javascript:void(0)" onclick="showPage('terms')">Terms & Conditions</a>
+                    <a href="javascript:void(0)" onclick="showPage('refund')">Refund & Cancellation</a>
+                </div>
+
 
                 <div class="footer-section">
                     <h3><i class="fas fa-phone"></i> Contact Info</h3>
@@ -1132,6 +1196,23 @@
         </div>
     </footer>
 
+    <!-- Booking Date Popup -->
+    <div id="dateModal" class="modal">
+        <div class="modal-content">
+            <button id="closeModal" class="close-btn">&times;</button>
+            <h3>Select Your Dates</h3>
+            <form id="dateForm">
+                <label>Pickup Date</label>
+                <input type="date" id="popupPickup" required>
+                <label>Drop-off Date</label>
+                <input type="date" id="popupDropoff" required>
+                <button type="submit" class="btn btn-primary">Confirm & WhatsApp</button>
+            </form>
+        </div>
+    </div>
+
+
+
     <!-- Floating Buttons -->
     <a href="tel:+918262812997" class="phone-float" target="_blank" aria-label="Call us">
         <i class="fas fa-phone"></i>
@@ -1143,6 +1224,52 @@
     </a>
 
     <script src="script.js"></script>
+    <script>
+        let selectedVehicle = null;
+        let selectedTransmission = null;
+        let selectedPrice = null;
+
+        // Modified trigger
+        function bookViaWhatsApp(vehicleName, transmission, price) {
+            selectedVehicle = vehicleName;
+            selectedTransmission = transmission;
+            selectedPrice = price;
+
+            // Open popup
+            document.getElementById("dateModal").style.display = "flex";
+        }
+
+        // Close popup
+        document.getElementById("closeModal").addEventListener("click", () => {
+            document.getElementById("dateModal").style.display = "none";
+        });
+
+        // Handle form submit
+        document.getElementById("dateForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            const pickup = document.getElementById("popupPickup").value;
+            const dropoff = document.getElementById("popupDropoff").value;
+
+            if (!pickup || !dropoff) return;
+
+            // Build WhatsApp message
+            const message = `🚗 *Vehicle Booking Inquiry – GoaRide*\n\n` +
+                `📌 *Car:* ${selectedVehicle}\n` +
+                `⚙️ *Transmission:* ${selectedTransmission}\n` +
+                `💵 *Price:* ${selectedPrice}/day\n` +
+                `💰 *Refundable Deposit:* ₹3,000\n\n` +
+                `📅 *Pickup:* ${pickup}\n` +
+                `📅 *Drop-off:* ${dropoff}\n\n` +
+                `Please confirm availability.`;
+
+            const whatsappURL = `https://wa.me/918262812997?text=${encodeURIComponent(message)}`;
+            window.open(whatsappURL, "_blank");
+
+            // Close modal
+            document.getElementById("dateModal").style.display = "none";
+        });
+
+    </script>
 </body>
 
 </html>

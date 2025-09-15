@@ -1,5 +1,5 @@
- // Smooth scrolling for navigation links
- document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+// Smooth scrolling for navigation links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
         e.preventDefault();
         const target = document.querySelector(this.getAttribute('href'));
@@ -31,18 +31,25 @@ document.querySelectorAll('.nav-menu a').forEach(link => {
 
 // WhatsApp booking from vehicle card
 function bookViaWhatsApp(vehicleName, transmission, price) {
-    const message = `🚗 Vehicle Booking Inquiry - GoaRide
+    const message = `🚗 *Vehicle Booking Inquiry - GoaRide*
 
-Hi! I'm interested in booking the ${vehicleName} (${transmission} - ${price}/day) for my Goa trip.
+    Hello Team 👋, I’m interested in booking:
+    
+    📌 *Car:* ${vehicleName}  
+    ⚙️ *Transmission:* ${transmission}  
+    💵 *Price:* ${price}/day  
+    💰 *Refundable Deposit:* ₹3,000  
+    
+    Could you please help me with:  
+    1️⃣ Availability check for my dates  
+    2️⃣ Complete booking process  
+    3️⃣ Pickup location details  
+    4️⃣ Required documents  
+    5️⃣ Security deposit information  
+    
+    ✅ Looking forward to exploring Goa with *GoaRide*!  
+    Please confirm availability at the earliest. 🙏`;
 
-Can you please help me with:
-✅ Availability check for my dates
-✅ Complete booking process
-✅ Pickup location details
-✅ Required documents
-✅ Security deposit information
-
-Looking forward to exploring Goa with GoaRide!`;
 
     const whatsappURL = `https://wa.me/918262812997?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');
@@ -346,4 +353,27 @@ window.addEventListener('online', () => {
 window.addEventListener('offline', () => {
     console.log('Network connection lost');
     showErrorMessage('Network connection lost', ['WhatsApp may not open until you reconnect to the internet.']);
+});
+
+// Page Navigation for Legal Pages
+function showPage(pageId) {
+    // Hide all page-content sections
+    const pages = document.querySelectorAll('.page-content');
+    pages.forEach(page => {
+        page.style.display = 'none';
+    });
+
+    // Show the selected one
+    const target = document.getElementById(pageId);
+    if (target) {
+        target.style.display = 'block';
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+// By default hide all except homepage sections
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.page-content').forEach(page => {
+        page.style.display = 'none';
+    });
 });
