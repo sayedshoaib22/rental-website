@@ -1,5 +1,10 @@
 // ===== Global Constants =====
 const WHATSAPP_NUMBER = '918262812997'; // GoaRide Whatsapp Business Number
+const NAVBAR_OFFSET_MOBILE = 62;   // matches CSS --navbar-height-mobile
+const NAVBAR_OFFSET_DESKTOP = 70;  // matches CSS --navbar-height-desktop
+function getNavbarScrollOffset() {
+    return window.innerWidth >= 1025 ? NAVBAR_OFFSET_DESKTOP : NAVBAR_OFFSET_MOBILE;
+}
 
 // ===== Global State =====
 let currentSection = null; // null means show all sections
@@ -19,11 +24,8 @@ function showSection(section) {
         vehiclesSection.classList.add('section-fade-in');
         vehiclesSection.classList.remove('section-fade-out');
 
-        // Smooth scroll to section with navbar offset
         setTimeout(() => {
-            const navbar = document.getElementById('navbar');
-            const navHeight = navbar ? navbar.offsetHeight : 70;
-            const targetPosition = vehiclesSection.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+            const targetPosition = vehiclesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
@@ -36,11 +38,8 @@ function showSection(section) {
         bikesSection.classList.add('section-fade-in');
         bikesSection.classList.remove('section-fade-out');
 
-        // Smooth scroll to section with navbar offset
         setTimeout(() => {
-            const navbar = document.getElementById('navbar');
-            const navHeight = navbar ? navbar.offsetHeight : 70;
-            const targetPosition = bikesSection.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+            const targetPosition = bikesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
             window.scrollTo({
                 top: targetPosition,
                 behavior: 'smooth'
@@ -226,8 +225,6 @@ function updateDarkModeIcon(isDark) {
     }
 }
 
-// Dynamic navbar height handled in CSS; removed JS height updates to keep mobile fixed at 60px
-
 // ===== Initialize WhatsApp Links =====
 function initializeWhatsAppLinks() {
     const initialMessage = encodeURIComponent("Hi! I'm interested in renting a car for my Goa trip.");
@@ -375,19 +372,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===== Smooth Scrolling with Navbar Offset =====
+    // ===== Smooth Scrolling (CSS scroll-padding-top handles navbar offset; this is fallback) =====
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
-            // Only prevent default for same-page anchors
             if (href !== '#' && document.querySelector(href)) {
                 e.preventDefault();
                 const target = document.querySelector(href);
                 if (target) {
-                    const navbar = document.getElementById('navbar');
-                    const navHeight = navbar ? navbar.offsetHeight : 70;
-                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight - 20;
-
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
                     window.scrollTo({
                         top: targetPosition,
                         behavior: 'smooth'
@@ -435,9 +428,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     console.log('GoaRide website loaded successfully! ✅');
 });
-
-// ===== Window Resize Handler =====
-// No dynamic navbar height adjustments needed; CSS keeps mobile height fixed at 60px
 
 // ===== Skeleton Loader Hide =====
 function hideSkeletonLoader() {
