@@ -19,18 +19,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <meta name="geo.region" content="IN-GA">
     <meta name="geo.placename" content="Goa">
+    <link rel="icon" href="image/favicon.ico" type="image/x-icon">
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Inline styles for grid layout fixes */
-        .transmission-option[style*="grid-column"] {
-            grid-column: 1 / -1;
-        }
-    </style>
 </head>
 
 <body>
@@ -43,11 +38,11 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="logo"><img src="image/logo.png" alt="GoaRide Logo"></div>
+            <div class="logo"><img src="image/logo.png" alt="GoaRide - Premium Car Rentals in Goa" loading="lazy"></div>
             <ul class="nav-menu" id="nav-menu">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#vehicles">Fleet</a></li>
-                <li><a href="#bikes">Bikes</a></li>
+                <li><a href="#vehicles" onclick="showSection('vehicles')">Fleet</a></li>
+                <li><a href="#bikes" onclick="showSection('bikes')">Bikes</a></li>
                 <li><a href="#booking">Booking</a></li>
                 <li><a href="#features">Features</a></li>
                 <li><a href="#testimonials">Reviews</a></li>
@@ -57,8 +52,7 @@
                 <button class="dark-mode-toggle" id="dark-mode-toggle" aria-label="Toggle dark mode">
                     <i class="fas fa-moon"></i>
                 </button>
-                <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a car for my Goa trip."
-                    class="nav-whatsapp" target="_blank" rel="noopener">
+                <a id="nav-whatsapp-link" href="#" class="nav-whatsapp" target="_blank" rel="noopener">
                     <i class="fab fa-whatsapp"></i> Chat
                 </a>
             </div>
@@ -81,8 +75,7 @@
                 <a href="#vehicles" class="btn btn-primary">
                     <i class="fas fa-car"></i> Browse Fleet
                 </a>
-                <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a car for my Goa trip."
-                    class="btn btn-outline" target="_blank" rel="noopener">
+                <a id="hero-whatsapp-btn" href="#" class="btn btn-outline" target="_blank" rel="noopener">
                     <i class="fab fa-whatsapp"></i> WhatsApp Booking
                 </a>
             </div>
@@ -90,7 +83,7 @@
     </section>
 
     <!-- Vehicles Section -->
-    <section id="vehicles" class="section">
+    <section id="vehicles" class="section vehicles-section" data-section="vehicles">
         <div class="container">
             <div class="section-title">
                 <h2>Our Premium Car Rental Fleet in Goa</h2>
@@ -514,7 +507,6 @@
                 <div class="vehicle-card">
                     <div class="vehicle-image"
                         style="background-image: url('https://image2url.com/r2/default/images/1771086867555-f1b998ba-9d26-4c0e-b1c8-d55ddb7e33b8.jpeg');">
-                        <div class="vehicle-badge">Hybrid</div>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');">
                         <div class="vehicle-badge">Hybrid</div>
                     </div>
                     <div class="vehicle-content">
@@ -799,7 +791,7 @@
     </section>
 
     <!-- Bikes Section -->
-    <section id="bikes" class="section bikes-section">
+    <section id="bikes" class="section bikes-section" data-section="bikes">
         <div class="container">
             <div class="section-title">
                 <h2>Adventure On Two Wheels - Bike Rentals in Goa</h2>
@@ -809,7 +801,7 @@
             </div>
 
             <div class="bikes-grid">
-                <!-- Honda Activa 125 -->
+                <!-- Honda Activa 125
                 <div class="bike-card">
                     <div class="bike-image"
                         style="background-image: url(https://image2url.com/r2/default/images/1771142393014-49d9578b-16b2-4e2e-b958-77fcbba93a25.jpeg);">
@@ -832,16 +824,16 @@
                             <i class="fab fa-whatsapp"></i> Book Now
                         </button>
                     </div>
-                </div>
+                </div> -->
 
-                <!-- Honda Activa Fasino 125 -->
+                <!-- Fasino 125 -->
                 <div class="bike-card">
                     <div class="bike-image"
                         style="background-image: url('https://image2url.com/r2/default/images/1771141146471-5eb9de67-def0-4725-890d-4e4dbeae6b9e.jpeg');">
                         <div class="bike-badge">Stylish</div>
                     </div>
                     <div class="bike-content">
-                        <h3 class="bike-title">Honda Activa Fasino 125</h3>
+                        <h3 class="bike-title">Yamaha Fascino 125</h3>
                         <ul class="bike-features">
                             <li><i class="fas fa-rupee-sign"></i> ₹500 Refundable Deposit</li>
                             <li><i class="fas fa-bolt"></i> 125cc Engine</li>
@@ -850,10 +842,10 @@
                             <li><i class="fas fa-star"></i> Trendy & Modern</li>
                         </ul>
                         <div class="price-section">
-                            <span class="bike-price">₹500/day</span>
+                            <span class="bike-price">₹600/day</span>
                         </div>
                         <button class="btn-small btn-book"
-                            onclick="bookViaWhatsApp('Honda Activa Fasino 125', 'Bike', '₹500')">
+                            onclick="bookViaWhatsApp('Yamaha Fascino 125', 'Bike', '₹500')">
                             <i class="fab fa-whatsapp"></i> Book Now
                         </button>
                     </div>
@@ -1142,7 +1134,7 @@
                     <p>Your trusted partner for premium vehicle rentals in Goa. Explore the beauty of Goa with our
                         well-maintained fleet of cars.</p>
                     <div class="social-links">
-                        <a href="https://wa.me/918262812997" target="_blank" rel="noopener" aria-label="WhatsApp"><i
+                        <a id="footer-whatsapp-link" href="#" target="_blank" rel="noopener" aria-label="WhatsApp"><i
                                 class="fab fa-whatsapp"></i></a>
                         <a href="https://www.instagram.com/goaride" target="_blank" rel="noopener"
                             aria-label="Instagram"><i class="fab fa-instagram"></i></a>
@@ -1180,8 +1172,7 @@
     </footer>
 
     <!-- Floating Action Buttons -->
-    <a href="https://wa.me/918262812997?text=Hi! I'm interested in renting a car for my Goa trip." class="fab-whatsapp"
-        target="_blank" rel="noopener" aria-label="WhatsApp us">
+    <a id="fab-whatsapp-link" href="#" class="fab-whatsapp" target="_blank" rel="noopener" aria-label="WhatsApp us">
         <i class="fab fa-whatsapp"></i>
     </a>
     <a href="tel:+918262812997" class="fab-phone" aria-label="Call us">

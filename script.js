@@ -1,3 +1,56 @@
+// ===== Global Constants =====
+const WHATSAPP_NUMBER = '918262812997'; // GoaRide Whatsapp Business Number
+
+// ===== Section Filtering (Cars vs Bikes) =====
+let currentSection = null; // null means show all sections
+
+function showSection(section) {
+    currentSection = section;
+    const vehiclesSection = document.getElementById('vehicles');
+    const bikesSection = document.getElementById('bikes');
+
+    if (!vehiclesSection || !bikesSection) return;
+
+    if (section === 'vehicles') {
+        // Show vehicles, hide bikes
+        vehiclesSection.style.display = 'block';
+        bikesSection.style.display = 'none';
+        vehiclesSection.classList.add('section-fade-in');
+        vehiclesSection.classList.remove('section-fade-out');
+
+        // Smooth scroll to section
+        setTimeout(() => {
+            vehiclesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    } else if (section === 'bikes') {
+        // Show bikes, hide vehicles
+        vehiclesSection.style.display = 'none';
+        bikesSection.style.display = 'block';
+        bikesSection.classList.add('section-fade-in');
+        bikesSection.classList.remove('section-fade-out');
+
+        // Smooth scroll to section
+        setTimeout(() => {
+            bikesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 100);
+    } else {
+        // Show all (section === 'all')
+        vehiclesSection.style.display = 'block';
+        bikesSection.style.display = 'block';
+        vehiclesSection.classList.remove('section-fade-out');
+        bikesSection.classList.remove('section-fade-out');
+        currentSection = null;
+    }
+
+    // Close mobile menu if open
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+    if (mobileMenu && navMenu) {
+        mobileMenu.classList.remove('active');
+        navMenu.classList.remove('mobile-active');
+    }
+}
+
 // ===== Dark Mode Toggle =====
 const darkModeToggle = document.getElementById('dark-mode-toggle');
 const htmlElement = document.documentElement;
@@ -157,8 +210,17 @@ function submitBooking() {
         return;
     }
 
-    // Build WhatsApp message
+    // Build WhatsApp message with formatted dates
     const days = Math.ceil((new Date(dropoff) - new Date(pickup)) / (1000 * 60 * 60 * 24));
+
+    // Format dates as DD-MM-YYYY for WhatsApp message
+    const formatDate = (dateStr) => {
+        const date = new Date(dateStr);
+        return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
+    };
+
+    const formattedPickup = formatDate(pickup);
+    const formattedDropoff = formatDate(dropoff);
 
     const message = `🚗 *BOOKING REQUEST - GoaRide*
 
@@ -169,8 +231,8 @@ function submitBooking() {
 
 *Rental Details:*
 • Vehicle: ${vehicle}
-• Pickup Date: ${pickup}
-• Drop-off Date: ${dropoff}
+• Pickup Date: ${formattedPickup}
+• Drop-off Date: ${formattedDropoff}
 • Duration: ${days} day${days > 1 ? 's' : ''}
 • Pickup Location: ${location}
 • Refundable Deposit: ₹3,000
@@ -190,7 +252,7 @@ Please confirm availability and total cost. Thank you!`;
 
     // Open WhatsApp
     setTimeout(() => {
-        const whatsappURL = `https://wa.me/918262812997?text=${encodeURIComponent(message)}`;
+        const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
         window.open(whatsappURL, '_blank');
 
         // Reset form
@@ -226,22 +288,25 @@ Could you please help me with:
 
 ✅ Looking forward to exploring Goa with GoaRide! 🙏`;
 
-    const whatsappURL = `https://wa.me/918262812997?text=${encodeURIComponent(message)}`;
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
     window.open(whatsappURL, '_blank');
 }
 
-// ===== Phone Input Formatting =====
+// ===== Phone Input Formatting & Validation =====
 const phoneInput = document.getElementById('phone');
 if (phoneInput) {
     phoneInput.addEventListener('input', (e) => {
         let value = e.target.value.replace(/\D/g, '');
 
-        // Auto-add country code for Indian numbers
+        // Limit to max 13 digits (country code + 10 digit number)
+        value = value.substring(0, 13);
+
+        // Auto-add country code for Indian numbers (10 digits)
         if (value.length === 10 && /^[6789]/.test(value)) {
             value = '91' + value;
         }
 
-        // Format display
+        // Format display: +91 XXXXX XXXXX
         if (value.length > 0) {
             if (value.startsWith('91')) {
                 value = '+91 ' + value.substring(2, 7) + ' ' + value.substring(7);
@@ -255,11 +320,16 @@ if (phoneInput) {
 
     phoneInput.addEventListener('blur', (e) => {
         const phoneClean = e.target.value.replace(/\D/g, '');
-        if (phoneClean.length > 0 && (phoneClean.length < 10 || phoneClean.length > 13)) {
+        // Valid format: 91 followed by exactly 10 digits (Indian number)
+        const isValid = phoneClean.length === 12 && phoneClean.startsWith('91');
+
+        if (phoneClean.length > 0 && !isValid) {
             e.target.style.borderColor = '#e53e3e';
-            e.target.title = 'Please enter a valid phone number';
+            e.target.style.boxShadow = '0 0 0 3px rgba(229, 62, 62, 0.1)';
+            e.target.title = 'Please enter a valid 10-digit Indian phone number';
         } else {
             e.target.style.borderColor = '';
+            e.target.style.boxShadow = '';
             e.target.title = '';
         }
     });
@@ -318,8 +388,39 @@ document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
     observer.observe(el);
 });
 
+// ===== Initialize WhatsApp Links =====
+function initializeWhatsAppLinks() {
+    const initialMessage = encodeURIComponent("Hi! I'm interested in renting a car for my Goa trip.");
+    const whatsappBaseURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${initialMessage}`;
+
+    // Update navigation WhatsApp link
+    const navLink = document.getElementById('nav-whatsapp-link');
+    if (navLink) {
+        navLink.href = whatsappBaseURL;
+    }
+
+    // Update hero WhatsApp button
+    const heroBtn = document.getElementById('hero-whatsapp-btn');
+    if (heroBtn) {
+        heroBtn.href = whatsappBaseURL;
+    }
+
+    // Update FAB WhatsApp link
+    const fabLink = document.getElementById('fab-whatsapp-link');
+    if (fabLink) {
+        fabLink.href = whatsappBaseURL;
+    }
+
+    // Update footer WhatsApp link
+    const footerLink = document.getElementById('footer-whatsapp-link');
+    if (footerLink) {
+        footerLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
+    }
+}
+
 // ===== Initialize on Load =====
 document.addEventListener('DOMContentLoaded', () => {
     initDarkMode();
+    initializeWhatsAppLinks();
     console.log('GoaRide website loaded successfully! ✅');
 });
