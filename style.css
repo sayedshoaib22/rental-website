@@ -117,12 +117,17 @@ body.dark-mode .navbar {
 }
 
 .logo {
-    font-size: 1.5rem;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--ocean-blue), var(--sunset-orange));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    display: flex;
+    align-items: center;
+    height: 50px;
+}
+
+.logo img {
+    max-width: 160px;
+    max-height: 50px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
 }
 
 .nav-menu {
