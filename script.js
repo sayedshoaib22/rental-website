@@ -1,9 +1,10 @@
 // ===== Global Constants =====
 const WHATSAPP_NUMBER = '918262812997'; // GoaRide Whatsapp Business Number
 
-// ===== Section Filtering (Cars vs Bikes) =====
+// ===== Global State =====
 let currentSection = null; // null means show all sections
 
+// ===== Section Filtering (Cars vs Bikes) =====
 function showSection(section) {
     currentSection = section;
     const vehiclesSection = document.getElementById('vehicles');
@@ -18,9 +19,15 @@ function showSection(section) {
         vehiclesSection.classList.add('section-fade-in');
         vehiclesSection.classList.remove('section-fade-out');
 
-        // Smooth scroll to section
+        // Smooth scroll to section with navbar offset
         setTimeout(() => {
-            vehiclesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 70;
+            const targetPosition = vehiclesSection.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
         }, 100);
     } else if (section === 'bikes') {
         // Show bikes, hide vehicles
@@ -29,9 +36,15 @@ function showSection(section) {
         bikesSection.classList.add('section-fade-in');
         bikesSection.classList.remove('section-fade-out');
 
-        // Smooth scroll to section
+        // Smooth scroll to section with navbar offset
         setTimeout(() => {
-            bikesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            const navbar = document.getElementById('navbar');
+            const navHeight = navbar ? navbar.offsetHeight : 70;
+            const targetPosition = bikesSection.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+            window.scrollTo({
+                top: targetPosition,
+                behavior: 'smooth'
+            });
         }, 100);
     } else {
         // Show all (section === 'all')
@@ -51,114 +64,36 @@ function showSection(section) {
     }
 }
 
-// ===== Dark Mode Toggle =====
-const darkModeToggle = document.getElementById('dark-mode-toggle');
-const htmlElement = document.documentElement;
-
-// Initialize dark mode from localStorage
-function initDarkMode() {
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode === 'true' || (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.body.classList.add('dark-mode');
-        updateDarkModeIcon(true);
+// ===== WhatsApp Direct Booking =====
+function bookViaWhatsApp(vehicleName, transmission, price) {
+    if (!vehicleName || !transmission || !price) {
+        console.warn('Missing booking parameters');
+        return;
     }
+
+    const message = `🚗 *Vehicle Booking Inquiry - GoaRide*
+
+Hello Team 👋, I'm interested in booking:
+
+📌 *Car:* ${vehicleName}
+⚙️ *Transmission:* ${transmission}
+💵 *Price:* ${price}/day
+💰 *Refundable Deposit:* ₹3,000
+
+Could you please help me with:
+1️⃣ Availability check
+2️⃣ Booking process
+3️⃣ Pickup location
+4️⃣ Required documents
+5️⃣ Security deposit info
+
+✅ Looking forward to exploring Goa with GoaRide! 🙏`;
+
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappURL, '_blank');
 }
 
-function updateDarkModeIcon(isDark) {
-    if (darkModeToggle) {
-        const icon = darkModeToggle.querySelector('i');
-        if (icon) {
-            if (isDark) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        }
-    }
-}
-
-if (darkModeToggle) {
-    darkModeToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark-mode');
-        const isDark = document.body.classList.contains('dark-mode');
-        localStorage.setItem('darkMode', isDark);
-        updateDarkModeIcon(isDark);
-    });
-}
-
-// ===== Mobile Menu Toggle =====
-const mobileMenu = document.getElementById('mobile-menu');
-const navMenu = document.getElementById('nav-menu');
-
-if (mobileMenu && navMenu) {
-    mobileMenu.addEventListener('click', () => {
-        mobileMenu.classList.toggle('active');
-        navMenu.classList.toggle('mobile-active');
-    });
-
-    // Close menu when clicking nav links
-    document.querySelectorAll('.nav-menu a').forEach(link => {
-        link.addEventListener('click', () => {
-            mobileMenu.classList.remove('active');
-            navMenu.classList.remove('mobile-active');
-        });
-    });
-}
-
-// ===== Smooth Scrolling =====
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start'
-            });
-        }
-    });
-});
-
-// ===== Skeleton Loader Hide =====
-window.addEventListener('load', () => {
-    const skeletonLoader = document.getElementById('skeleton-loader');
-    if (skeletonLoader) {
-        skeletonLoader.style.display = 'none';
-    }
-});
-
-// Auto-hide skeleton loader after 2.5 seconds as fallback
-setTimeout(() => {
-    const skeletonLoader = document.getElementById('skeleton-loader');
-    if (skeletonLoader && skeletonLoader.style.display !== 'none') {
-        skeletonLoader.style.display = 'none';
-    }
-}, 2500);
-
-// ===== Navbar Scroll Effect =====
-window.addEventListener('scroll', () => {
-    const navbar = document.getElementById('navbar');
-    if (navbar) {
-        if (window.scrollY > 100) {
-            navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-        } else {
-            navbar.style.boxShadow = 'none';
-        }
-    }
-});
-
-// ===== Booking Form Handling =====
-const bookingForm = document.getElementById('booking-form');
-
-if (bookingForm) {
-    bookingForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        submitBooking();
-    });
-}
-
+// ===== Booking Form Submission =====
 function submitBooking() {
     const vehicle = document.getElementById('vehicle')?.value || '';
     const name = document.getElementById('name')?.value || '';
@@ -252,141 +187,46 @@ Please confirm availability and total cost. Thank you!`;
 
     // Open WhatsApp
     setTimeout(() => {
+        const bookingForm = document.getElementById('booking-form');
         const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
         window.open(whatsappURL, '_blank');
 
         // Reset form
-        bookingForm.reset();
+        if (bookingForm) {
+            bookingForm.reset();
+        }
         if (messagesDiv) {
             messagesDiv.innerHTML = '';
         }
     }, 500);
 }
 
-// ===== WhatsApp Direct Booking =====
-function bookViaWhatsApp(vehicleName, transmission, price) {
-    if (!vehicleName || !transmission || !price) {
-        console.warn('Missing booking parameters');
-        return;
+// ===== Dark Mode Functions =====
+function initDarkMode() {
+    const savedMode = localStorage.getItem('darkMode');
+    if (savedMode === 'true' || (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.body.classList.add('dark-mode');
+        updateDarkModeIcon(true);
     }
-
-    const message = `🚗 *Vehicle Booking Inquiry - GoaRide*
-
-Hello Team 👋, I'm interested in booking:
-
-📌 *Car:* ${vehicleName}
-⚙️ *Transmission:* ${transmission}
-💵 *Price:* ${price}/day
-💰 *Refundable Deposit:* ₹3,000
-
-Could you please help me with:
-1️⃣ Availability check
-2️⃣ Booking process
-3️⃣ Pickup location
-4️⃣ Required documents
-5️⃣ Security deposit info
-
-✅ Looking forward to exploring Goa with GoaRide! 🙏`;
-
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, '_blank');
 }
 
-// ===== Phone Input Formatting & Validation =====
-const phoneInput = document.getElementById('phone');
-if (phoneInput) {
-    phoneInput.addEventListener('input', (e) => {
-        let value = e.target.value.replace(/\D/g, '');
-
-        // Limit to max 13 digits (country code + 10 digit number)
-        value = value.substring(0, 13);
-
-        // Auto-add country code for Indian numbers (10 digits)
-        if (value.length === 10 && /^[6789]/.test(value)) {
-            value = '91' + value;
-        }
-
-        // Format display: +91 XXXXX XXXXX
-        if (value.length > 0) {
-            if (value.startsWith('91')) {
-                value = '+91 ' + value.substring(2, 7) + ' ' + value.substring(7);
+function updateDarkModeIcon(isDark) {
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+        const icon = darkModeToggle.querySelector('i');
+        if (icon) {
+            if (isDark) {
+                icon.classList.remove('fa-moon');
+                icon.classList.add('fa-sun');
             } else {
-                value = '+' + value.substring(0, 3) + ' ' + value.substring(3);
+                icon.classList.remove('fa-sun');
+                icon.classList.add('fa-moon');
             }
         }
-
-        e.target.value = value.trim();
-    });
-
-    phoneInput.addEventListener('blur', (e) => {
-        const phoneClean = e.target.value.replace(/\D/g, '');
-        // Valid format: 91 followed by exactly 10 digits (Indian number)
-        const isValid = phoneClean.length === 12 && phoneClean.startsWith('91');
-
-        if (phoneClean.length > 0 && !isValid) {
-            e.target.style.borderColor = '#e53e3e';
-            e.target.style.boxShadow = '0 0 0 3px rgba(229, 62, 62, 0.1)';
-            e.target.title = 'Please enter a valid 10-digit Indian phone number';
-        } else {
-            e.target.style.borderColor = '';
-            e.target.style.boxShadow = '';
-            e.target.title = '';
-        }
-    });
+    }
 }
 
-// ===== Date Validation =====
-const pickupInput = document.getElementById('pickup');
-const dropoffInput = document.getElementById('dropoff');
-
-if (pickupInput && dropoffInput) {
-    // Set minimum date to today
-    const today = new Date().toISOString().split('T')[0];
-    pickupInput.min = today;
-    dropoffInput.min = today;
-
-    pickupInput.addEventListener('change', () => {
-        dropoffInput.min = pickupInput.value;
-        if (dropoffInput.value && dropoffInput.value <= pickupInput.value) {
-            dropoffInput.value = '';
-        }
-    });
-
-    // Validate dates
-    [pickupInput, dropoffInput].forEach(input => {
-        input.addEventListener('change', () => {
-            if (pickupInput.value && dropoffInput.value && dropoffInput.value <= pickupInput.value) {
-                dropoffInput.style.borderColor = '#e53e3e';
-            } else {
-                dropoffInput.style.borderColor = '';
-            }
-        });
-    });
-}
-
-// ===== Scroll Reveal Animation =====
-const observerOptions = {
-    threshold: 0.1,
-    rootMargin: '0px 0px -50px 0px'
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-            observer.unobserve(entry.target);
-        }
-    });
-}, observerOptions);
-
-// Observe elements with data-scroll-reveal
-document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(30px)';
-    el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-    observer.observe(el);
-});
+// Dynamic navbar height handled in CSS; removed JS height updates to keep mobile fixed at 60px
 
 // ===== Initialize WhatsApp Links =====
 function initializeWhatsAppLinks() {
@@ -418,9 +258,197 @@ function initializeWhatsAppLinks() {
     }
 }
 
-// ===== Initialize on Load =====
+// ===== DOM CONTENT LOADED - Initialize All Event Listeners =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize dark mode
     initDarkMode();
     initializeWhatsAppLinks();
+
+    // ===== Dark Mode Toggle =====
+    const darkModeToggle = document.getElementById('dark-mode-toggle');
+    if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-mode');
+            const isDark = document.body.classList.contains('dark-mode');
+            localStorage.setItem('darkMode', isDark);
+            updateDarkModeIcon(isDark);
+        });
+    }
+
+    // ===== Mobile Menu Toggle =====
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (mobileMenu && navMenu) {
+        mobileMenu.addEventListener('click', () => {
+            mobileMenu.classList.toggle('active');
+            navMenu.classList.toggle('mobile-active');
+        });
+
+        // Close menu when clicking nav links
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navMenu.classList.remove('mobile-active');
+            });
+        });
+    }
+
+    // ===== Booking Form Handling =====
+    const bookingForm = document.getElementById('booking-form');
+    if (bookingForm) {
+        bookingForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            submitBooking();
+        });
+    }
+
+    // ===== Phone Input Formatting & Validation =====
+    const phoneInput = document.getElementById('phone');
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+
+            // Limit to max 13 digits (country code + 10 digit number)
+            value = value.substring(0, 13);
+
+            // Auto-add country code for Indian numbers (10 digits)
+            if (value.length === 10 && /^[6789]/.test(value)) {
+                value = '91' + value;
+            }
+
+            // Format display: +91 XXXXX XXXXX
+            if (value.length > 0) {
+                if (value.startsWith('91')) {
+                    value = '+91 ' + value.substring(2, 7) + ' ' + value.substring(7);
+                } else {
+                    value = '+' + value.substring(0, 3) + ' ' + value.substring(3);
+                }
+            }
+
+            e.target.value = value.trim();
+        });
+
+        phoneInput.addEventListener('blur', (e) => {
+            const phoneClean = e.target.value.replace(/\D/g, '');
+            // Valid format: 91 followed by exactly 10 digits (Indian number)
+            const isValid = phoneClean.length === 12 && phoneClean.startsWith('91');
+
+            if (phoneClean.length > 0 && !isValid) {
+                e.target.style.borderColor = '#e53e3e';
+                e.target.style.boxShadow = '0 0 0 3px rgba(229, 62, 62, 0.1)';
+                e.target.title = 'Please enter a valid 10-digit Indian phone number';
+            } else {
+                e.target.style.borderColor = '';
+                e.target.style.boxShadow = '';
+                e.target.title = '';
+            }
+        });
+    }
+
+    // ===== Date Validation =====
+    const pickupInput = document.getElementById('pickup');
+    const dropoffInput = document.getElementById('dropoff');
+
+    if (pickupInput && dropoffInput) {
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        pickupInput.min = today;
+        dropoffInput.min = today;
+
+        pickupInput.addEventListener('change', () => {
+            dropoffInput.min = pickupInput.value;
+            if (dropoffInput.value && dropoffInput.value <= pickupInput.value) {
+                dropoffInput.value = '';
+            }
+        });
+
+        // Validate dates
+        [pickupInput, dropoffInput].forEach(input => {
+            input.addEventListener('change', () => {
+                if (pickupInput.value && dropoffInput.value && dropoffInput.value <= pickupInput.value) {
+                    dropoffInput.style.borderColor = '#e53e3e';
+                } else {
+                    dropoffInput.style.borderColor = '';
+                }
+            });
+        });
+    }
+
+    // ===== Smooth Scrolling with Navbar Offset =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            const href = this.getAttribute('href');
+            // Only prevent default for same-page anchors
+            if (href !== '#' && document.querySelector(href)) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    const navbar = document.getElementById('navbar');
+                    const navHeight = navbar ? navbar.offsetHeight : 70;
+                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - navHeight - 20;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
+
+    // ===== Scroll Reveal Animation =====
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+
+    // Observe elements with data-scroll-reveal
+    document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // ===== Navbar Scroll Effect =====
+    window.addEventListener('scroll', () => {
+        const navbar = document.getElementById('navbar');
+        if (navbar) {
+            if (window.scrollY > 100) {
+                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                navbar.style.boxShadow = 'none';
+            }
+        }
+    });
+
     console.log('GoaRide website loaded successfully! ✅');
 });
+
+// ===== Window Resize Handler =====
+// No dynamic navbar height adjustments needed; CSS keeps mobile height fixed at 60px
+
+// ===== Skeleton Loader Hide =====
+function hideSkeletonLoader() {
+    const skeletonLoader = document.getElementById('skeleton-loader');
+    if (skeletonLoader && !skeletonLoader.classList.contains('hidden')) {
+        skeletonLoader.classList.add('hidden');
+    }
+}
+
+// Hide on window load
+window.addEventListener('load', hideSkeletonLoader);
+
+// Auto-hide skeleton loader after 2.5 seconds as fallback
+setTimeout(hideSkeletonLoader, 2500);
