@@ -8,6 +8,50 @@ function getNavbarScrollOffset() {
 
 // ===== Global State =====
 let currentSection = null; // null means show all sections
+let imagesLazyLoaded = false; // Track if lazy loading images have been loaded
+
+// ===== Lazy Loading Images =====
+function initializeLazyLoading() {
+    // Use Intersection Observer for native lazy loading support detection
+    if ('IntersectionObserver' in window) {
+        const imageElements = document.querySelectorAll('img[loading="lazy"]');
+
+        const imageObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const img = entry.target;
+                    // Image is already lazy-loaded by browser
+                    observer.unobserve(img);
+                }
+            });
+        });
+
+        imageElements.forEach(img => {
+            imageObserver.observe(img);
+        });
+    }
+
+    // Preload images that are visible above the fold
+    const visibleImages = document.querySelectorAll('img[data-src]');
+    visibleImages.forEach(img => {
+        if (img.getBoundingClientRect().top < window.innerHeight) {
+            img.src = img.dataset.src;
+            img.removeAttribute('data-src');
+        }
+    });
+
+    imagesLazyLoaded = true;
+}
+
+// ===== Performance: Defer non-critical CSS/JS =====
+function deferNonCriticalResources() {
+    // Font loading optimization
+    if ('fonts' in document) {
+        document.fonts.ready.then(() => {
+            document.body.classList.add('fonts-loaded');
+        });
+    }
+}
 
 // ===== Section Filtering (Cars vs Bikes) =====
 function showSection(section) {
@@ -257,6 +301,10 @@ function initializeWhatsAppLinks() {
 
 // ===== DOM CONTENT LOADED - Initialize All Event Listeners =====
 document.addEventListener('DOMContentLoaded', () => {
+    // Initialize performance optimizations
+    deferNonCriticalResources();
+    initializeLazyLoading();
+
     // Initialize dark mode
     initDarkMode();
     initializeWhatsAppLinks();
