@@ -1849,6 +1849,41 @@ body.dark-mode .blog-excerpt {
     gap: 0.75rem;
 }
 
+/* Blog card image + SEO landing styles */
+.blog-image {
+    width: 100%;
+    height: clamp(160px, 32vw, 220px);
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    display: block;
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.04), rgba(249, 115, 22, 0.04));
+}
+
+.blog-card {
+    border-top: 6px solid rgba(249, 115, 22, 0.12);
+}
+
+.seo-section .section-header h2 {
+    text-align: left;
+}
+
+.seo-section .seo-content {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .blog-image {
+        height: 180px;
+    }
+
+    .seo-section .section-header h2 {
+        text-align: center;
+    }
+}
+
 /* ===== Footer Map ===== */
 .footer-map {
     margin-top: 3rem;

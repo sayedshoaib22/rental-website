@@ -12,33 +12,39 @@ let imagesLazyLoaded = false; // Track if lazy loading images have been loaded
 
 // ===== Lazy Loading Images =====
 function initializeLazyLoading() {
-    // Use Intersection Observer for native lazy loading support detection
-    if ('IntersectionObserver' in window) {
-        const imageElements = document.querySelectorAll('img[loading="lazy"]');
+    // Lazy-load images that use `data-src` and/or have `loading="lazy"`.
+    const lazyImages = Array.from(document.querySelectorAll('img[data-src], img[loading="lazy"]'));
 
-        const imageObserver = new IntersectionObserver((entries, observer) => {
+    if (lazyImages.length === 0) {
+        imagesLazyLoaded = true;
+        return;
+    }
+
+    const loadImage = (img) => {
+        const data = img.getAttribute('data-src');
+        if (data) {
+            img.src = data;
+            img.removeAttribute('data-src');
+        }
+        img.classList.add('loaded');
+    };
+
+    if ('IntersectionObserver' in window) {
+        const imgObserver = new IntersectionObserver((entries, observer) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const img = entry.target;
-                    // Image is already lazy-loaded by browser
+                    loadImage(img);
                     observer.unobserve(img);
                 }
             });
-        });
+        }, { rootMargin: '200px 0px' });
 
-        imageElements.forEach(img => {
-            imageObserver.observe(img);
-        });
+        lazyImages.forEach(img => imgObserver.observe(img));
+    } else {
+        // Fallback: load all immediately
+        lazyImages.forEach(img => loadImage(img));
     }
-
-    // Preload images that are visible above the fold
-    const visibleImages = document.querySelectorAll('img[data-src]');
-    visibleImages.forEach(img => {
-        if (img.getBoundingClientRect().top < window.innerHeight) {
-            img.src = img.dataset.src;
-            img.removeAttribute('data-src');
-        }
-    });
 
     imagesLazyLoaded = true;
 }
