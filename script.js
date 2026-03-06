@@ -17,7 +17,7 @@ const VEHICLES = [
         seats: 5, deposit: 3000,
         features: ['AC', 'GPS', 'Fuel Efficient'],
         transmissions: [
-            { type: 'manual',    price: 1200 },
+            { type: 'manual', price: 1200 },
             { type: 'automatic', price: 1500 }
         ]
     },
@@ -27,7 +27,7 @@ const VEHICLES = [
         seats: 5, deposit: 3000,
         features: ['AC', 'GPS', 'Fuel Efficient'],
         transmissions: [
-            { type: 'manual',    price: 1200 },
+            { type: 'manual', price: 1200 },
             { type: 'automatic', price: 1500 }
         ]
     },
@@ -38,7 +38,7 @@ const VEHICLES = [
         seats: 5, deposit: 3000,
         features: ['AC', 'Sunroof', 'SUV'],
         transmissions: [
-            { type: 'manual',    price: 2000 },
+            { type: 'manual', price: 2000 },
             { type: 'automatic', price: 2500 }
         ]
     },
@@ -48,7 +48,7 @@ const VEHICLES = [
         seats: 5, deposit: 5000,
         features: ['AC', 'Sunroof', '5★ Safety'],
         transmissions: [
-            { type: 'manual',    price: 2500 },
+            { type: 'manual', price: 2500 },
             { type: 'automatic', price: 3200 }
         ]
     },
@@ -67,17 +67,17 @@ const VEHICLES = [
         seats: 4, deposit: 5000,
         features: ['Off-Road', 'Hardtop', '4×4'],
         transmissions: [
-            { type: 'manual',    price: 3000 },
+            { type: 'manual', price: 3000 },
             { type: 'automatic', price: 3500 }
         ]
     },
     {
         id: 7, name: 'Mahindra Thar Convertible', type: 'suv', badge: 'Convertible', badgeColor: '',
-        image: 'https://image2url.com/r2/default/images/1771085007230-e3056cd4-758f-43a1-857c-024057a6fdd5.jpeg',
+        image: 'https://image2url.com/r2/default/images/1771081798127-60ce84f8-d742-4139-a67d-a559e1a46960.png',
         seats: 4, deposit: 5000,
         features: ['Soft Top', 'Off-Road', 'Beach Ready'],
         transmissions: [
-            { type: 'manual',    price: 3300 },
+            { type: 'manual', price: 3300 },
             { type: 'automatic', price: 4000 }
         ]
     },
@@ -97,7 +97,7 @@ const VEHICLES = [
         seats: 7, deposit: 5000,
         features: ['7 Seats', 'Spacious', 'Family MPV'],
         transmissions: [
-            { type: 'manual',    price: 2200 },
+            { type: 'manual', price: 2200 },
             { type: 'automatic', price: 3000 }
         ]
     },
@@ -107,7 +107,7 @@ const VEHICLES = [
         seats: 7, deposit: 5000,
         features: ['6-7 Seats', 'Connected Car', 'Premium'],
         transmissions: [
-            { type: 'manual',    price: 2500 },
+            { type: 'manual', price: 2500 },
             { type: 'automatic', price: 3000 }
         ]
     },
@@ -117,7 +117,7 @@ const VEHICLES = [
         seats: 8, deposit: 5000,
         features: ['8 Seats', 'Highway Cruiser', 'Premium'],
         transmissions: [
-            { type: 'manual',    price: 3000 },
+            { type: 'manual', price: 3000 },
             { type: 'automatic', price: 3500 }
         ]
     },
@@ -188,16 +188,20 @@ const VEHICLES = [
     }
 ];
 
-// ===== GLOBAL FILTER STATE =====
+// Default filter state
 const filterState = {
-    type:         'all',
+    type: 'cars',
     transmission: 'all',
-    price:        'all',
-    search:       ''
+    price: 'all',
+    search: ''
 };
 
-// ===== MODAL STATE =====
-let activeModalVehicle = null;
+// ===== DEBOUNCED FILTERS =====
+let filterTimeout;
+function debouncedApplyFilters() {
+    clearTimeout(filterTimeout);
+    filterTimeout = setTimeout(applyFilters, 300);
+}
 
 /* ============================================================
    FLEET RENDERING
@@ -238,9 +242,9 @@ function renderFleet(vehicles) {
 function buildVehicleCard(v) {
     const isBike = v.type === 'bikes';
     const hasManual = v.transmissions.some(t => t.type === 'manual');
-    const hasAuto   = v.transmissions.some(t => t.type === 'automatic');
+    const hasAuto = v.transmissions.some(t => t.type === 'automatic');
     const manualPrice = v.transmissions.find(t => t.type === 'manual')?.price;
-    const autoPrice   = v.transmissions.find(t => t.type === 'automatic')?.price;
+    const autoPrice = v.transmissions.find(t => t.type === 'automatic')?.price;
     const lowestPrice = Math.min(...v.transmissions.map(t => t.price));
 
     const featureTags = v.features.map(f => `
@@ -299,10 +303,10 @@ function buildVehicleCard(v) {
 
     const typeLabel = {
         hatchback: 'Hatchback',
-        suv:       'SUV',
-        mpv:       'MPV',
-        luxury:    'Luxury',
-        bikes:     isBike ? '2-Wheeler' : 'Bike'
+        suv: 'SUV',
+        mpv: 'MPV',
+        luxury: 'Luxury',
+        bikes: isBike ? '2-Wheeler' : 'Bike'
     }[v.type] || v.type;
 
     const badgeClass = v.badgeColor ? `card-badge ${v.badgeColor}` : 'card-badge';
@@ -371,13 +375,14 @@ function applyFilters() {
     const txSelect = document.getElementById('filter-transmission');
     const priceSelect = document.getElementById('filter-price');
 
-    filterState.search       = (searchEl?.value || heroSearchEl?.value || '').toLowerCase().trim();
+    filterState.search = (searchEl?.value || heroSearchEl?.value || '').toLowerCase().trim();
     filterState.transmission = txSelect?.value || 'all';
-    filterState.price        = priceSelect?.value || 'all';
+    filterState.price = priceSelect?.value || 'all';
 
     let filtered = VEHICLES.filter(v => {
-        // Type filter
-        if (filterState.type !== 'all' && v.type !== filterState.type) return false;
+        // Type filter - NEW LOGIC
+        if (filterState.type === 'cars' && v.type === 'bikes') return false;
+        else if (filterState.type !== 'all' && filterState.type !== 'cars' && v.type !== filterState.type) return false;
 
         // Search filter
         if (filterState.search) {
@@ -415,7 +420,7 @@ function applyFilters() {
  * Resets all filters to default state
  */
 function resetFilters() {
-    filterState.type = 'all';
+    filterState.type = 'cars';
     filterState.transmission = 'all';
     filterState.price = 'all';
     filterState.search = '';
@@ -424,8 +429,8 @@ function resetFilters() {
     const txSelect = document.getElementById('filter-transmission');
     const priceSelect = document.getElementById('filter-price');
 
-    if (searchEl)    searchEl.value = '';
-    if (txSelect)    txSelect.value = 'all';
+    if (searchEl) searchEl.value = '';
+    if (txSelect) txSelect.value = 'all';
     if (priceSelect) priceSelect.value = 'all';
 
     document.querySelectorAll('.filter-btn').forEach(b => {
@@ -443,7 +448,7 @@ function resetFilters() {
  * @param {string} section — 'cars' | 'bikes'
  */
 function filterSection(section) {
-    const type = section === 'bikes' ? 'bikes' : 'all';
+    const type = section === 'bikes' ? 'bikes' : 'cars';
     filterState.type = type;
 
     const allBtn = document.querySelector(`.filter-btn[data-filter="${section === 'bikes' ? 'bikes' : 'all'}"]`);
@@ -500,9 +505,9 @@ function openBookingModal(vehicleId, transmission) {
 
     // Set date minimums
     const today = new Date().toISOString().split('T')[0];
-    const pickupInput  = document.getElementById('modal-pickup');
+    const pickupInput = document.getElementById('modal-pickup');
     const dropoffInput = document.getElementById('modal-dropoff');
-    if (pickupInput)  { pickupInput.min = today; pickupInput.value = ''; }
+    if (pickupInput) { pickupInput.min = today; pickupInput.value = ''; }
     if (dropoffInput) { dropoffInput.min = today; dropoffInput.value = ''; }
 
     const durEl = document.getElementById('modal-duration');
@@ -535,7 +540,7 @@ function confirmModalBooking() {
 
     const { vehicle, transmission } = activeModalVehicle;
     const tx = vehicle.transmissions.find(t => t.type === transmission) || vehicle.transmissions[0];
-    const pickupDate  = document.getElementById('modal-pickup')?.value;
+    const pickupDate = document.getElementById('modal-pickup')?.value;
     const dropoffDate = document.getElementById('modal-dropoff')?.value;
 
     if (!pickupDate || !dropoffDate) {
@@ -553,14 +558,14 @@ function confirmModalBooking() {
     const txLabel = tx.type.charAt(0).toUpperCase() + tx.type.slice(1);
 
     const message = buildWhatsAppMessage({
-        vehicleName:  vehicle.name,
+        vehicleName: vehicle.name,
         transmission: txLabel,
-        pricePerDay:  `₹${tx.price.toLocaleString('en-IN')}`,
-        deposit:      `₹${vehicle.deposit.toLocaleString('en-IN')}`,
-        pickup:       formatDate(pickupDate),
-        dropoff:      formatDate(dropoffDate),
+        pricePerDay: `₹${tx.price.toLocaleString('en-IN')}`,
+        deposit: `₹${vehicle.deposit.toLocaleString('en-IN')}`,
+        pickup: formatDate(pickupDate),
+        dropoff: formatDate(dropoffDate),
         days,
-        totalCost:    `₹${totalCost.toLocaleString('en-IN')}`
+        totalCost: `₹${totalCost.toLocaleString('en-IN')}`
     });
 
     closeModal();
@@ -594,9 +599,9 @@ function buildWhatsAppMessage({ vehicleName, transmission, pricePerDay, deposit 
     msg += `⚙️ *Transmission:* ${transmission}\n`;
     msg += `💵 *Price:* ${pricePerDay}/day\n`;
     if (deposit) msg += `🔐 *Deposit:* ${deposit} (refundable)\n`;
-    if (pickup)  msg += `📅 *Pickup Date:* ${pickup}\n`;
+    if (pickup) msg += `📅 *Pickup Date:* ${pickup}\n`;
     if (dropoff) msg += `📅 *Return Date:* ${dropoff}\n`;
-    if (days)    msg += `📆 *Duration:* ${days} day${days > 1 ? 's' : ''}\n`;
+    if (days) msg += `📆 *Duration:* ${days} day${days > 1 ? 's' : ''}\n`;
     if (totalCost) msg += `💰 *Estimated Total:* ${totalCost}\n`;
     msg += `\nCould you please confirm:\n`;
     msg += `1️⃣ Availability\n`;
@@ -623,24 +628,24 @@ function openWhatsApp(message) {
  */
 function submitBooking() {
     const fields = {
-        vehicle:  document.getElementById('vehicle')?.value?.trim(),
-        name:     document.getElementById('name')?.value?.trim(),
-        phone:    document.getElementById('phone')?.value?.trim(),
-        email:    document.getElementById('email')?.value?.trim(),
+        vehicle: document.getElementById('vehicle')?.value?.trim(),
+        name: document.getElementById('name')?.value?.trim(),
+        phone: document.getElementById('phone')?.value?.trim(),
+        email: document.getElementById('email')?.value?.trim(),
         location: document.getElementById('location')?.value?.trim(),
-        pickup:   document.getElementById('pickup')?.value,
-        dropoff:  document.getElementById('dropoff')?.value,
+        pickup: document.getElementById('pickup')?.value,
+        dropoff: document.getElementById('dropoff')?.value,
         requests: document.getElementById('requests')?.value?.trim()
     };
 
     const errors = [];
-    if (!fields.vehicle)                       errors.push('Please select a vehicle');
+    if (!fields.vehicle) errors.push('Please select a vehicle');
     if (!fields.name || fields.name.length < 2) errors.push('Name must be at least 2 characters');
-    if (!fields.phone)                         errors.push('Phone number is required');
+    if (!fields.phone) errors.push('Phone number is required');
     if (!fields.email || !fields.email.includes('@')) errors.push('A valid email address is required');
-    if (!fields.location)                      errors.push('Please select a pickup location');
-    if (!fields.pickup)                        errors.push('Pickup date is required');
-    if (!fields.dropoff)                       errors.push('Return date is required');
+    if (!fields.location) errors.push('Please select a pickup location');
+    if (!fields.pickup) errors.push('Pickup date is required');
+    if (!fields.dropoff) errors.push('Return date is required');
     if (fields.pickup && fields.dropoff && fields.dropoff <= fields.pickup)
         errors.push('Return date must be after pickup date');
 
@@ -728,11 +733,11 @@ function initWhatsAppLinks() {
     const baseUrl = `https://wa.me/${WHATSAPP_NUMBER}`;
 
     const links = {
-        'nav-whatsapp-link':   url,
-        'hero-whatsapp-btn':   url,
-        'fab-whatsapp-link':   url,
+        'nav-whatsapp-link': url,
+        'hero-whatsapp-btn': url,
+        'fab-whatsapp-link': url,
         'footer-whatsapp-link': baseUrl,
-        'booking-wa-link':     url
+        'booking-wa-link': url
     };
 
     Object.entries(links).forEach(([id, href]) => {
@@ -889,15 +894,20 @@ function initScrollReveal() {
  */
 function observeNewCards() {
     if (!revealObserver) return;
-    document.querySelectorAll('.vehicle-card:not(.revealed)').forEach(el => {
+    const cards = document.querySelectorAll('.vehicle-card:not(.revealed)');
+    cards.forEach((el, index) => {
         el.style.opacity = '0';
         el.style.transform = 'translateY(20px)';
         el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-        // Small stagger
-        setTimeout(() => {
-            el.style.opacity = '1';
-            el.style.transform = 'translateY(0)';
-        }, 60);
+        // Staggered animation with requestAnimationFrame
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                requestAnimationFrame(() => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                });
+            }, index * 60);
+        });
     });
 }
 
@@ -975,13 +985,13 @@ function initPhoneInput() {
    ============================================================ */
 
 function initDateInputs() {
-    const pickupInput  = document.getElementById('pickup');
+    const pickupInput = document.getElementById('pickup');
     const dropoffInput = document.getElementById('dropoff');
 
     if (!pickupInput || !dropoffInput) return;
 
     const today = new Date().toISOString().split('T')[0];
-    pickupInput.min  = today;
+    pickupInput.min = today;
     dropoffInput.min = today;
 
     pickupInput.addEventListener('change', () => {
@@ -1002,9 +1012,9 @@ function initDateInputs() {
    ============================================================ */
 
 function initModalDates() {
-    const pickupEl  = document.getElementById('modal-pickup');
+    const pickupEl = document.getElementById('modal-pickup');
     const dropoffEl = document.getElementById('modal-dropoff');
-    const durEl     = document.getElementById('modal-duration');
+    const durEl = document.getElementById('modal-duration');
 
     function updateDuration() {
         if (!pickupEl?.value || !dropoffEl?.value || !durEl) return;
@@ -1021,7 +1031,7 @@ function initModalDates() {
         durEl.classList.add('has-value');
     }
 
-    if (pickupEl)  pickupEl.addEventListener('change', () => { if (dropoffEl) dropoffEl.min = pickupEl.value; updateDuration(); });
+    if (pickupEl) pickupEl.addEventListener('change', () => { if (dropoffEl) dropoffEl.min = pickupEl.value; updateDuration(); });
     if (dropoffEl) dropoffEl.addEventListener('change', updateDuration);
 }
 
@@ -1085,7 +1095,7 @@ document.addEventListener('keydown', e => {
     if (e.key === 'Tab') {
         const focusable = modal.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
         const first = focusable[0];
-        const last  = focusable[focusable.length - 1];
+        const last = focusable[focusable.length - 1];
 
         if (e.shiftKey && document.activeElement === first) {
             e.preventDefault();
@@ -1123,7 +1133,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initModalDates();
 
     // Render fleet
-    renderFleet(VEHICLES);
+    applyFilters();
     initLazyImages();
 
     // Booking form submission
