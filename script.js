@@ -1,125 +1,139 @@
 // ===== Global Constants =====
-const WHATSAPP_NUMBER = '918262812997'; // NSZ Goa Ride Whatsapp Business Number
-const NAVBAR_OFFSET_MOBILE = 62;   // matches CSS --navbar-height-mobile
-const NAVBAR_OFFSET_DESKTOP = 70;  // matches CSS --navbar-height-desktop
+const WHATSAPP_NUMBER = '918262812997';
+const NAVBAR_OFFSET_MOBILE = 62;
+const NAVBAR_OFFSET_DESKTOP = 70;
 function getNavbarScrollOffset() {
     return window.innerWidth >= 1025 ? NAVBAR_OFFSET_DESKTOP : NAVBAR_OFFSET_MOBILE;
 }
 
 // ===== Global State =====
-let currentSection = null; // null means show all sections
-let imagesLazyLoaded = false; // Track if lazy loading images have been loaded
+let currentSection = null;
+let imagesLazyLoaded = false;
 
-// ===== Lazy Loading Images =====
-function initializeLazyLoading() {
-    // Lazy-load images that use `data-src` and/or have `loading="lazy"`.
-    const lazyImages = Array.from(document.querySelectorAll('img[data-src], img[loading="lazy"]'));
+// ===== URL Router =====
+// Maps URL path → section to show
+const ROUTES = {
+    '/':        null,       // show all
+    '/cars':    'vehicles',
+    '/bikes':   'bikes',
+};
 
-    if (lazyImages.length === 0) {
-        imagesLazyLoaded = true;
-        return;
-    }
+/**
+ * Called by navbar/button clicks.
+ * Updates the URL to /cars or /bikes without a page reload,
+ * then shows the right section.
+ */
+function navigate(section, event) {
+    if (event) event.preventDefault();
 
-    const loadImage = (img) => {
-        const data = img.getAttribute('data-src');
-        if (data) {
-            img.src = data;
-            img.removeAttribute('data-src');
-        }
-        img.classList.add('loaded');
-    };
+    const path = section === 'vehicles' ? '/cars'
+               : section === 'bikes'    ? '/bikes'
+               : '/';
 
-    if ('IntersectionObserver' in window) {
-        const imgObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    loadImage(img);
-                    observer.unobserve(img);
-                }
-            });
-        }, { rootMargin: '200px 0px' });
+    // Push clean URL into browser history
+    history.pushState({ section }, '', path);
 
-        lazyImages.forEach(img => imgObserver.observe(img));
-    } else {
-        // Fallback: load all immediately
-        lazyImages.forEach(img => loadImage(img));
-    }
-
-    imagesLazyLoaded = true;
+    // Show the section and scroll to it
+    showSection(section);
 }
 
-// ===== Performance: Defer non-critical CSS/JS =====
-function deferNonCriticalResources() {
-    // Font loading optimization
-    if ('fonts' in document) {
-        document.fonts.ready.then(() => {
-            document.body.classList.add('fonts-loaded');
-        });
-    }
+/**
+ * On back/forward browser navigation, re-apply the correct section.
+ */
+window.addEventListener('popstate', (e) => {
+    const section = e.state?.section || resolveRouteFromPath(location.pathname);
+    showSection(section);
+});
+
+/**
+ * On first load, read the current URL path and show the right section.
+ */
+function resolveRouteFromPath(pathname) {
+    return ROUTES[pathname] ?? null;
 }
 
-// ===== Section Filtering (Cars vs Bikes) =====
-function showSection(section) {
+function initRouter() {
+    const section = resolveRouteFromPath(location.pathname);
+    // Replace the current history entry so popstate works correctly on first load
+    history.replaceState({ section }, '', location.pathname);
+    showSection(section, /* skipScroll */ true);
+}
+
+// ===== Section Visibility =====
+function showSection(section, skipScroll = false) {
     currentSection = section;
     const vehiclesSection = document.getElementById('vehicles');
-    const bikesSection = document.getElementById('bikes');
+    const bikesSection    = document.getElementById('bikes');
 
     if (!vehiclesSection || !bikesSection) return;
 
     if (section === 'vehicles') {
-        // Show vehicles, hide bikes
         vehiclesSection.style.display = 'block';
-        bikesSection.style.display = 'none';
+        bikesSection.style.display    = 'none';
         vehiclesSection.classList.add('section-fade-in');
-        vehiclesSection.classList.remove('section-fade-out');
-
-        setTimeout(() => {
-            const targetPosition = vehiclesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }, 100);
+        if (!skipScroll) {
+            setTimeout(() => {
+                const top = vehiclesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
+                window.scrollTo({ top, behavior: 'smooth' });
+            }, 100);
+        }
     } else if (section === 'bikes') {
-        // Show bikes, hide vehicles
         vehiclesSection.style.display = 'none';
-        bikesSection.style.display = 'block';
+        bikesSection.style.display    = 'block';
         bikesSection.classList.add('section-fade-in');
-        bikesSection.classList.remove('section-fade-out');
-
-        setTimeout(() => {
-            const targetPosition = bikesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        }, 100);
+        if (!skipScroll) {
+            setTimeout(() => {
+                const top = bikesSection.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
+                window.scrollTo({ top, behavior: 'smooth' });
+            }, 100);
+        }
     } else {
-        // Show all (section === 'all')
+        // null → show all sections (home / default)
         vehiclesSection.style.display = 'block';
-        bikesSection.style.display = 'block';
+        bikesSection.style.display    = 'block';
         vehiclesSection.classList.remove('section-fade-out');
         bikesSection.classList.remove('section-fade-out');
         currentSection = null;
     }
 
-    // Close mobile menu if open
-    const mobileMenu = document.getElementById('mobile-menu');
-    const navMenu = document.getElementById('nav-menu');
-    if (mobileMenu && navMenu) {
-        mobileMenu.classList.remove('active');
-        navMenu.classList.remove('mobile-active');
+    // Close mobile menu
+    document.getElementById('mobile-menu')?.classList.remove('active');
+    document.getElementById('nav-menu')?.classList.remove('mobile-active');
+}
+
+// ===== Lazy Loading =====
+function initializeLazyLoading() {
+    const lazyImages = Array.from(document.querySelectorAll('img[data-src], img[loading="lazy"]'));
+    if (lazyImages.length === 0) { imagesLazyLoaded = true; return; }
+
+    const loadImage = (img) => {
+        const src = img.getAttribute('data-src');
+        if (src) { img.src = src; img.removeAttribute('data-src'); }
+        img.classList.add('loaded');
+    };
+
+    if ('IntersectionObserver' in window) {
+        const obs = new IntersectionObserver((entries, o) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { loadImage(entry.target); o.unobserve(entry.target); }
+            });
+        }, { rootMargin: '200px 0px' });
+        lazyImages.forEach(img => obs.observe(img));
+    } else {
+        lazyImages.forEach(loadImage);
+    }
+    imagesLazyLoaded = true;
+}
+
+function deferNonCriticalResources() {
+    if ('fonts' in document) {
+        document.fonts.ready.then(() => document.body.classList.add('fonts-loaded'));
     }
 }
 
-// ===== WhatsApp Direct Booking =====
+// ===== WhatsApp Booking =====
 function bookViaWhatsApp(vehicleName, transmission, price) {
-    if (!vehicleName || !transmission || !price) {
-        console.warn('Missing booking parameters');
-        return;
-    }
-
+    if (!vehicleName || !transmission || !price) return;
     const message = `🚗 *Vehicle Booking Inquiry - NSZ Goa Ride*
 
 Hello Team 👋, I'm interested in booking:
@@ -138,73 +152,44 @@ Could you please help me with:
 
 ✅ Looking forward to exploring Goa with NSZ Goa Ride! 🙏`;
 
-    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-    window.open(whatsappURL, '_blank');
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
-// ===== Booking Form Submission =====
+// ===== Booking Form =====
 function submitBooking() {
-    const vehicle = document.getElementById('vehicle')?.value || '';
-    const name = document.getElementById('name')?.value || '';
-    const phone = document.getElementById('phone')?.value || '';
-    const email = document.getElementById('email')?.value || '';
-    const pickup = document.getElementById('pickup')?.value || '';
-    const dropoff = document.getElementById('dropoff')?.value || '';
-    const location = document.getElementById('location')?.value || '';
-    const requests = document.getElementById('requests')?.value || '';
+    const vehicle   = document.getElementById('vehicle')?.value  || '';
+    const name      = document.getElementById('name')?.value     || '';
+    const phone     = document.getElementById('phone')?.value    || '';
+    const email     = document.getElementById('email')?.value    || '';
+    const pickup    = document.getElementById('pickup')?.value   || '';
+    const dropoff   = document.getElementById('dropoff')?.value  || '';
+    const location  = document.getElementById('location')?.value || '';
+    const requests  = document.getElementById('requests')?.value || '';
 
-    // Validation
     const errors = [];
-
-    if (!name || name.length < 2) {
-        errors.push('Name must be at least 2 characters');
-    }
-    if (!phone) {
-        errors.push('Phone number is required');
-    }
-    if (!email || !email.includes('@')) {
-        errors.push('Valid email is required');
-    }
-    if (!vehicle) {
-        errors.push('Please select a vehicle');
-    }
-    if (!pickup) {
-        errors.push('Pickup date is required');
-    }
-    if (!dropoff) {
-        errors.push('Drop-off date is required');
-    }
-    if (!location) {
-        errors.push('Pickup location is required');
-    }
+    if (!name || name.length < 2)    errors.push('Name must be at least 2 characters');
+    if (!phone)                       errors.push('Phone number is required');
+    if (!email || !email.includes('@')) errors.push('Valid email is required');
+    if (!vehicle)                     errors.push('Please select a vehicle');
+    if (!pickup)                      errors.push('Pickup date is required');
+    if (!dropoff)                     errors.push('Drop-off date is required');
+    if (!location)                    errors.push('Pickup location is required');
 
     const messagesDiv = document.getElementById('booking-messages');
     if (errors.length > 0) {
         if (messagesDiv) {
             messagesDiv.innerHTML = `
-                <div style="background: #fed7d7; color: #c53030; padding: 1rem; border-radius: 10px; border-left: 4px solid #e53e3e;">
+                <div style="background:#fed7d7;color:#c53030;padding:1rem;border-radius:10px;border-left:4px solid #e53e3e;">
                     <strong><i class="fas fa-exclamation-circle"></i> Please fix these errors:</strong>
-                    <ul style="margin: 0.5rem 0 0 1rem;">
-                        ${errors.map(e => `<li>${e}</li>`).join('')}
-                    </ul>
-                </div>
-            `;
+                    <ul style="margin:.5rem 0 0 1rem;">${errors.map(e => `<li>${e}</li>`).join('')}</ul>
+                </div>`;
             messagesDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
         return;
     }
 
-    // Build WhatsApp message with formatted dates
-    const days = Math.ceil((new Date(dropoff) - new Date(pickup)) / (1000 * 60 * 60 * 24));
-
-    // Format dates as DD-MM-YYYY for WhatsApp message
-    const formatDate = (dateStr) => {
-        const date = new Date(dateStr);
-        return `${String(date.getDate()).padStart(2, '0')}-${String(date.getMonth() + 1).padStart(2, '0')}-${date.getFullYear()}`;
-    };
-
-    const formattedPickup = formatDate(pickup);
-    const formattedDropoff = formatDate(dropoff);
+    const days = Math.ceil((new Date(dropoff) - new Date(pickup)) / 86400000);
+    const fmt  = d => { const dt = new Date(d); return `${String(dt.getDate()).padStart(2,'0')}-${String(dt.getMonth()+1).padStart(2,'0')}-${dt.getFullYear()}`; };
 
     const message = `🚗 *BOOKING REQUEST - NSZ Goa Ride*
 
@@ -215,8 +200,8 @@ function submitBooking() {
 
 *Rental Details:*
 • Vehicle: ${vehicle}
-• Pickup Date: ${formattedPickup}
-• Drop-off Date: ${formattedDropoff}
+• Pickup Date: ${fmt(pickup)}
+• Drop-off Date: ${fmt(dropoff)}
 • Duration: ${days} day${days > 1 ? 's' : ''}
 • Pickup Location: ${location}
 • Refundable Deposit: ₹3,000
@@ -225,119 +210,70 @@ ${requests ? `*Special Requests:* ${requests}` : ''}
 
 Please confirm availability and total cost. Thank you!`;
 
-    // Show success message
     if (messagesDiv) {
-        messagesDiv.innerHTML = `
-            <div style="background: #c6f6d5; color: #22543d; padding: 1rem; border-radius: 10px; border-left: 4px solid #38a169;">
-                <i class="fas fa-check-circle"></i> Redirecting to WhatsApp...
-            </div>
-        `;
+        messagesDiv.innerHTML = `<div style="background:#c6f6d5;color:#22543d;padding:1rem;border-radius:10px;border-left:4px solid #38a169;"><i class="fas fa-check-circle"></i> Redirecting to WhatsApp...</div>`;
     }
 
-    // Open WhatsApp
     setTimeout(() => {
-        const bookingForm = document.getElementById('booking-form');
-        const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-        window.open(whatsappURL, '_blank');
-
-        // Reset form
-        if (bookingForm) {
-            bookingForm.reset();
-        }
-        if (messagesDiv) {
-            messagesDiv.innerHTML = '';
-        }
+        window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
+        document.getElementById('booking-form')?.reset();
+        if (messagesDiv) messagesDiv.innerHTML = '';
     }, 500);
 }
 
-// ===== Dark Mode Functions =====
+// ===== Dark Mode =====
 function initDarkMode() {
-    const savedMode = localStorage.getItem('darkMode');
-    if (savedMode === 'true' || (!savedMode && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    const saved = localStorage.getItem('darkMode');
+    if (saved === 'true' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.body.classList.add('dark-mode');
         updateDarkModeIcon(true);
     }
 }
 
 function updateDarkModeIcon(isDark) {
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    if (darkModeToggle) {
-        const icon = darkModeToggle.querySelector('i');
-        if (icon) {
-            if (isDark) {
-                icon.classList.remove('fa-moon');
-                icon.classList.add('fa-sun');
-            } else {
-                icon.classList.remove('fa-sun');
-                icon.classList.add('fa-moon');
-            }
-        }
-    }
+    const icon = document.querySelector('#dark-mode-toggle i');
+    if (!icon) return;
+    icon.classList.toggle('fa-moon', !isDark);
+    icon.classList.toggle('fa-sun',  isDark);
 }
 
-// ===== Initialize WhatsApp Links =====
+// ===== WhatsApp Links =====
 function initializeWhatsAppLinks() {
-    const initialMessage = encodeURIComponent("Hi! I'm interested in renting a car for my Goa trip.");
-    const whatsappBaseURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${initialMessage}`;
-
-    // Update navigation WhatsApp link
-    const navLink = document.getElementById('nav-whatsapp-link');
-    if (navLink) {
-        navLink.href = whatsappBaseURL;
-    }
-
-    // Update hero WhatsApp button
-    const heroBtn = document.getElementById('hero-whatsapp-btn');
-    if (heroBtn) {
-        heroBtn.href = whatsappBaseURL;
-    }
-
-    // Update FAB WhatsApp link
-    const fabLink = document.getElementById('fab-whatsapp-link');
-    if (fabLink) {
-        fabLink.href = whatsappBaseURL;
-    }
-
-    // Update footer WhatsApp link
-    const footerLink = document.getElementById('footer-whatsapp-link');
-    if (footerLink) {
-        footerLink.href = `https://wa.me/${WHATSAPP_NUMBER}`;
-    }
+    const msg = encodeURIComponent("Hi! I'm interested in renting a car for my Goa trip.");
+    const base = `https://wa.me/${WHATSAPP_NUMBER}?text=${msg}`;
+    document.getElementById('nav-whatsapp-link')?.setAttribute('href', base);
+    document.getElementById('hero-whatsapp-btn')?.setAttribute('href', base);
+    document.getElementById('fab-whatsapp-link')?.setAttribute('href', base);
+    document.getElementById('footer-whatsapp-link')?.setAttribute('href', `https://wa.me/${WHATSAPP_NUMBER}`);
 }
 
-// ===== DOM CONTENT LOADED - Initialize All Event Listeners =====
+// ===== DOMContentLoaded =====
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize performance optimizations
     deferNonCriticalResources();
     initializeLazyLoading();
-
-    // Initialize dark mode
     initDarkMode();
     initializeWhatsAppLinks();
 
-    // ===== Dark Mode Toggle =====
-    const darkModeToggle = document.getElementById('dark-mode-toggle');
-    if (darkModeToggle) {
-        darkModeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('darkMode', isDark);
-            updateDarkModeIcon(isDark);
-        });
-    }
+    // Run router — reads current URL path on load
+    initRouter();
 
-    // ===== Mobile Menu Toggle =====
+    // Dark mode toggle
+    document.getElementById('dark-mode-toggle')?.addEventListener('click', () => {
+        document.body.classList.toggle('dark-mode');
+        const isDark = document.body.classList.contains('dark-mode');
+        localStorage.setItem('darkMode', isDark);
+        updateDarkModeIcon(isDark);
+    });
+
+    // Mobile menu toggle
     const mobileMenu = document.getElementById('mobile-menu');
-    const navMenu = document.getElementById('nav-menu');
-
+    const navMenu    = document.getElementById('nav-menu');
     if (mobileMenu && navMenu) {
         mobileMenu.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
             navMenu.classList.toggle('mobile-active');
         });
-
-        // Close menu when clicking nav links
-        document.querySelectorAll('.nav-menu a').forEach(link => {
+        navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 mobileMenu.classList.remove('active');
                 navMenu.classList.remove('mobile-active');
@@ -345,154 +281,93 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // ===== Booking Form Handling =====
-    const bookingForm = document.getElementById('booking-form');
-    if (bookingForm) {
-        bookingForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            submitBooking();
-        });
-    }
+    // Booking form
+    document.getElementById('booking-form')?.addEventListener('submit', e => {
+        e.preventDefault();
+        submitBooking();
+    });
 
-    // ===== Phone Input Formatting & Validation =====
+    // Phone formatting
     const phoneInput = document.getElementById('phone');
     if (phoneInput) {
         phoneInput.addEventListener('input', (e) => {
-            let value = e.target.value.replace(/\D/g, '');
-
-            // Limit to max 13 digits (country code + 10 digit number)
-            value = value.substring(0, 13);
-
-            // Auto-add country code for Indian numbers (10 digits)
-            if (value.length === 10 && /^[6789]/.test(value)) {
-                value = '91' + value;
+            let v = e.target.value.replace(/\D/g, '').substring(0, 13);
+            if (v.length === 10 && /^[6789]/.test(v)) v = '91' + v;
+            if (v.length > 0) {
+                v = v.startsWith('91')
+                    ? '+91 ' + v.substring(2, 7) + ' ' + v.substring(7)
+                    : '+' + v.substring(0, 3) + ' ' + v.substring(3);
             }
-
-            // Format display: +91 XXXXX XXXXX
-            if (value.length > 0) {
-                if (value.startsWith('91')) {
-                    value = '+91 ' + value.substring(2, 7) + ' ' + value.substring(7);
-                } else {
-                    value = '+' + value.substring(0, 3) + ' ' + value.substring(3);
-                }
-            }
-
-            e.target.value = value.trim();
+            e.target.value = v.trim();
         });
-
         phoneInput.addEventListener('blur', (e) => {
-            const phoneClean = e.target.value.replace(/\D/g, '');
-            // Valid format: 91 followed by exactly 10 digits (Indian number)
-            const isValid = phoneClean.length === 12 && phoneClean.startsWith('91');
-
-            if (phoneClean.length > 0 && !isValid) {
-                e.target.style.borderColor = '#e53e3e';
-                e.target.style.boxShadow = '0 0 0 3px rgba(229, 62, 62, 0.1)';
-                e.target.title = 'Please enter a valid 10-digit Indian phone number';
-            } else {
-                e.target.style.borderColor = '';
-                e.target.style.boxShadow = '';
-                e.target.title = '';
-            }
+            const clean = e.target.value.replace(/\D/g, '');
+            const valid = clean.length === 12 && clean.startsWith('91');
+            e.target.style.borderColor = (clean.length > 0 && !valid) ? '#e53e3e' : '';
+            e.target.style.boxShadow   = (clean.length > 0 && !valid) ? '0 0 0 3px rgba(229,62,62,.1)' : '';
         });
     }
 
-    // ===== Date Validation =====
-    const pickupInput = document.getElementById('pickup');
+    // Date validation
+    const pickupInput  = document.getElementById('pickup');
     const dropoffInput = document.getElementById('dropoff');
-
     if (pickupInput && dropoffInput) {
-        // Set minimum date to today
         const today = new Date().toISOString().split('T')[0];
-        pickupInput.min = today;
-        dropoffInput.min = today;
-
+        pickupInput.min = dropoffInput.min = today;
         pickupInput.addEventListener('change', () => {
             dropoffInput.min = pickupInput.value;
-            if (dropoffInput.value && dropoffInput.value <= pickupInput.value) {
-                dropoffInput.value = '';
-            }
+            if (dropoffInput.value && dropoffInput.value <= pickupInput.value) dropoffInput.value = '';
         });
-
-        // Validate dates
-        [pickupInput, dropoffInput].forEach(input => {
-            input.addEventListener('change', () => {
-                if (pickupInput.value && dropoffInput.value && dropoffInput.value <= pickupInput.value) {
-                    dropoffInput.style.borderColor = '#e53e3e';
-                } else {
-                    dropoffInput.style.borderColor = '';
-                }
+        [pickupInput, dropoffInput].forEach(inp => {
+            inp.addEventListener('change', () => {
+                const bad = pickupInput.value && dropoffInput.value && dropoffInput.value <= pickupInput.value;
+                dropoffInput.style.borderColor = bad ? '#e53e3e' : '';
             });
         });
     }
 
-    // ===== Smooth Scrolling (CSS scroll-padding-top handles navbar offset; this is fallback) =====
+    // Smooth scroll for plain anchor links (non-routed)
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
             if (href !== '#' && document.querySelector(href)) {
                 e.preventDefault();
-                const target = document.querySelector(href);
-                if (target) {
-                    const targetPosition = target.getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                }
+                const top = document.querySelector(href).getBoundingClientRect().top + window.scrollY - getNavbarScrollOffset();
+                window.scrollTo({ top, behavior: 'smooth' });
             }
         });
     });
 
-    // ===== Scroll Reveal Animation =====
-    const observerOptions = {
-        threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
+    // Scroll reveal
+    const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
+                entry.target.style.opacity   = '1';
                 entry.target.style.transform = 'translateY(0)';
-                observer.unobserve(entry.target);
+                revealObs.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
-    // Observe elements with data-scroll-reveal
     document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
-        el.style.opacity = '0';
+        el.style.opacity   = '0';
         el.style.transform = 'translateY(30px)';
-        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-        observer.observe(el);
+        el.style.transition = 'opacity .6s ease, transform .6s ease';
+        revealObs.observe(el);
     });
 
-    // ===== Navbar Scroll Effect =====
+    // Navbar scroll shadow
     window.addEventListener('scroll', () => {
         const navbar = document.getElementById('navbar');
-        if (navbar) {
-            if (window.scrollY > 100) {
-                navbar.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
-            } else {
-                navbar.style.boxShadow = 'none';
-            }
-        }
+        if (navbar) navbar.style.boxShadow = window.scrollY > 100 ? '0 2px 10px rgba(0,0,0,0.1)' : 'none';
     });
 
     console.log('NSZ Goa Ride website loaded successfully! ✅');
 });
 
-// ===== Skeleton Loader Hide =====
+// ===== Skeleton Loader =====
 function hideSkeletonLoader() {
-    const skeletonLoader = document.getElementById('skeleton-loader');
-    if (skeletonLoader && !skeletonLoader.classList.contains('hidden')) {
-        skeletonLoader.classList.add('hidden');
-    }
+    document.getElementById('skeleton-loader')?.classList.add('hidden');
 }
-
-// Hide on window load
 window.addEventListener('load', hideSkeletonLoader);
-
-// Auto-hide skeleton loader after 2.5 seconds as fallback
 setTimeout(hideSkeletonLoader, 2500);
