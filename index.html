@@ -52,7 +52,6 @@
         window.dataLayer = window.dataLayer || [];
         function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
-
         gtag('config', 'G-EMCJPP09C1');
     </script>
 </head>
@@ -68,13 +67,13 @@
     <!-- ===================== NAVBAR ===================== -->
     <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
         <div class="nav-inner">
-            <a class="logo" href="#home">
+            <a class="logo" href="/">
                 <img src="image/logo.png" alt="NSZ Goa Ride" loading="lazy" width="120" height="38">
             </a>
             <ul class="nav-menu" id="nav-menu">
-                <li><a href="#home">Home</a></li>
-                <li><a href="#vehicles" onclick="showSection('vehicles')">Cars</a></li>
-                <li><a href="#bikes" onclick="showSection('bikes')">Bikes</a></li>
+                <li><a href="/">Home</a></li>
+                <li><a href="/cars" onclick="navigate('vehicles', event)">Cars</a></li>
+                <li><a href="/bikes" onclick="navigate('bikes', event)">Bikes</a></li>
                 <li><a href="#booking">Book</a></li>
                 <li><a href="#features">Why Us</a></li>
                 <li><a href="#testimonials">Reviews</a></li>
@@ -117,7 +116,7 @@
                     Free airport pickup · Manual &amp; automatic · 24/7 support.
                 </p>
                 <div class="hero-actions">
-                    <a href="#vehicles" class="btn-hero-primary">
+                    <a href="/cars" onclick="navigate('vehicles', event)" class="btn-hero-primary">
                         <i class="fas fa-car"></i> Browse Fleet
                     </a>
                     <a id="hero-whatsapp-btn" href="#" class="btn-hero-ghost" target="_blank" rel="noopener">
@@ -233,14 +232,10 @@
                             <li><i class="fas fa-gas-pump"></i>Fuel Efficient</li>
                         </ul>
                         <div class="price-table">
-                            <div class="price-row">
-                                <span class="price-type">Manual</span>
-                                <span class="price-amt">₹1,200<small>/day</small></span>
-                            </div>
-                            <div class="price-row">
-                                <span class="price-type">Automatic</span>
-                                <span class="price-amt">₹1,500<small>/day</small></span>
-                            </div>
+                            <div class="price-row"><span class="price-type">Manual</span><span
+                                    class="price-amt">₹1,200<small>/day</small></span></div>
+                            <div class="price-row"><span class="price-type">Automatic</span><span
+                                    class="price-amt">₹1,500<small>/day</small></span></div>
                         </div>
                         <div class="card-actions">
                             <button class="btn-card btn-card--dark"
@@ -891,85 +886,53 @@
                                 <select id="vehicle" required aria-label="Select vehicle">
                                     <option value="">Choose a vehicle...</option>
                                     <optgroup label="Economy Cars">
-                                        <option value="Maruti Ignis Manual - ₹1,200/day">Maruti Ignis Manual -
-                                            ₹1,200/day</option>
-                                        <option value="Maruti Ignis Automatic - ₹1,500/day">Maruti Ignis Automatic -
-                                            ₹1,500/day</option>
-                                        <option value="Maruti Swift Manual - ₹1,200/day">Maruti Swift Manual -
-                                            ₹1,200/day</option>
-                                        <option value="Maruti Swift Automatic - ₹1,500/day">Maruti Swift Automatic -
-                                            ₹1,500/day</option>
-                                        <option value="Maruti Baleno Manual - ₹1,200/day">Maruti Baleno Manual -
-                                            ₹1,200/day</option>
-                                        <option value="Maruti Baleno Automatic - ₹1,500/day">Maruti Baleno Automatic -
-                                            ₹1,500/day</option>
-                                        <option value="Hyundai i20 Manual - ₹1,300/day">Hyundai i20 Manual - ₹1,300/day
-                                        </option>
-                                        <option value="Hyundai i20 Automatic - ₹1,600/day">Hyundai i20 Automatic -
-                                            ₹1,600/day</option>
+                                        <option value="Maruti Ignis Manual - ₹1,200/day">Maruti Ignis Manual - ₹1,200/day</option>
+                                        <option value="Maruti Ignis Automatic - ₹1,500/day">Maruti Ignis Automatic - ₹1,500/day</option>
+                                        <option value="Maruti Swift Manual - ₹1,200/day">Maruti Swift Manual - ₹1,200/day</option>
+                                        <option value="Maruti Swift Automatic - ₹1,500/day">Maruti Swift Automatic - ₹1,500/day</option>
+                                        <option value="Maruti Baleno Manual - ₹1,200/day">Maruti Baleno Manual - ₹1,200/day</option>
+                                        <option value="Maruti Baleno Automatic - ₹1,500/day">Maruti Baleno Automatic - ₹1,500/day</option>
+                                        <option value="Hyundai i20 Manual - ₹1,300/day">Hyundai i20 Manual - ₹1,300/day</option>
+                                        <option value="Hyundai i20 Automatic - ₹1,600/day">Hyundai i20 Automatic - ₹1,600/day</option>
                                     </optgroup>
                                     <optgroup label="SUVs & Sedans">
-                                        <option value="Maruti Brezza Manual - ₹2,000/day">Maruti Brezza Manual -
-                                            ₹2,000/day</option>
-                                        <option value="Maruti Brezza Automatic - ₹2,500/day">Maruti Brezza Automatic -
-                                            ₹2,500/day</option>
-                                        <option value="Hyundai Creta Manual - ₹2,500/day">Hyundai Creta Manual -
-                                            ₹2,500/day</option>
-                                        <option value="Hyundai Creta Automatic - ₹3,200/day">Hyundai Creta Automatic -
-                                            ₹3,200/day</option>
+                                        <option value="Maruti Brezza Manual - ₹2,000/day">Maruti Brezza Manual - ₹2,000/day</option>
+                                        <option value="Maruti Brezza Automatic - ₹2,500/day">Maruti Brezza Automatic - ₹2,500/day</option>
+                                        <option value="Hyundai Creta Manual - ₹2,500/day">Hyundai Creta Manual - ₹2,500/day</option>
+                                        <option value="Hyundai Creta Automatic - ₹3,200/day">Hyundai Creta Automatic - ₹3,200/day</option>
                                     </optgroup>
                                     <optgroup label="Family & MPVs">
-                                        <option value="Maruti Ertiga Manual - ₹2,200/day">Maruti Ertiga Manual -
-                                            ₹2,200/day</option>
-                                        <option value="Maruti Ertiga Automatic - ₹3,000/day">Maruti Ertiga Automatic -
-                                            ₹3,000/day</option>
-                                        <option value="Kia Carens Manual - ₹2,500/day">Kia Carens Manual - ₹2,500/day
-                                        </option>
-                                        <option value="Kia Carens Automatic - ₹3,000/day">Kia Carens Automatic -
-                                            ₹3,000/day</option>
-                                        <option value="Toyota Innova Crysta Manual - ₹3,000/day">Toyota Innova Crysta
-                                            Manual - ₹3,000/day</option>
-                                        <option value="Toyota Innova Crysta Automatic - ₹3,500/day">Toyota Innova Crysta
-                                            Automatic - ₹3,500/day</option>
-                                        <option value="Toyota Innova Hycross Automatic - ₹3,500/day">Toyota Innova
-                                            Hycross Automatic - ₹3,500/day</option>
+                                        <option value="Maruti Ertiga Manual - ₹2,200/day">Maruti Ertiga Manual - ₹2,200/day</option>
+                                        <option value="Maruti Ertiga Automatic - ₹3,000/day">Maruti Ertiga Automatic - ₹3,000/day</option>
+                                        <option value="Kia Carens Manual - ₹2,500/day">Kia Carens Manual - ₹2,500/day</option>
+                                        <option value="Kia Carens Automatic - ₹3,000/day">Kia Carens Automatic - ₹3,000/day</option>
+                                        <option value="Toyota Innova Crysta Manual - ₹3,000/day">Toyota Innova Crysta Manual - ₹3,000/day</option>
+                                        <option value="Toyota Innova Crysta Automatic - ₹3,500/day">Toyota Innova Crysta Automatic - ₹3,500/day</option>
+                                        <option value="Toyota Innova Hycross Automatic - ₹3,500/day">Toyota Innova Hycross Automatic - ₹3,500/day</option>
                                     </optgroup>
                                     <optgroup label="Adventure & Premium">
-                                        <option value="Toyota Fortuner Automatic - ₹6,000/day">Toyota Fortuner Automatic
-                                            - ₹6,000/day</option>
-                                        <option value="Mahindra Thar Hardtop Manual - ₹3,000/day">Mahindra Thar Hardtop
-                                            Manual - ₹3,000/day</option>
-                                        <option value="Mahindra Thar Hardtop Automatic - ₹3,500/day">Mahindra Thar
-                                            Hardtop Automatic - ₹3,500/day</option>
-                                        <option value="Mahindra Thar Convertible Manual - ₹3,300/day">Mahindra Thar
-                                            Convertible Manual - ₹3,300/day</option>
-                                        <option value="Mahindra Thar Convertible Automatic - ₹4,000/day">Mahindra Thar
-                                            Convertible Automatic - ₹4,000/day</option>
-                                        <option value="Mahindra Thar Roxx Automatic - ₹6,500/day">Mahindra Thar Roxx
-                                            Automatic - ₹6,500/day</option>
+                                        <option value="Toyota Fortuner Automatic - ₹6,000/day">Toyota Fortuner Automatic - ₹6,000/day</option>
+                                        <option value="Mahindra Thar Hardtop Manual - ₹3,000/day">Mahindra Thar Hardtop Manual - ₹3,000/day</option>
+                                        <option value="Mahindra Thar Hardtop Automatic - ₹3,500/day">Mahindra Thar Hardtop Automatic - ₹3,500/day</option>
+                                        <option value="Mahindra Thar Convertible Manual - ₹3,300/day">Mahindra Thar Convertible Manual - ₹3,300/day</option>
+                                        <option value="Mahindra Thar Convertible Automatic - ₹4,000/day">Mahindra Thar Convertible Automatic - ₹4,000/day</option>
+                                        <option value="Mahindra Thar Roxx Automatic - ₹6,500/day">Mahindra Thar Roxx Automatic - ₹6,500/day</option>
                                     </optgroup>
                                     <optgroup label="Luxury Cars">
-                                        <option value="Mercedes-Benz C300 Automatic - ₹18,000/day">Mercedes-Benz C300
-                                            Automatic - ₹18,000/day</option>
-                                        <option value="Audi A3 Automatic - ₹20,000/day">Audi A3 Automatic - ₹20,000/day
-                                        </option>
-                                        <option value="Mini Cooper Automatic - ₹16,000/day">Mini Cooper Automatic -
-                                            ₹16,000/day</option>
+                                        <option value="Mercedes-Benz C300 Automatic - ₹18,000/day">Mercedes-Benz C300 Automatic - ₹18,000/day</option>
+                                        <option value="Audi A3 Automatic - ₹20,000/day">Audi A3 Automatic - ₹20,000/day</option>
+                                        <option value="Mini Cooper Automatic - ₹16,000/day">Mini Cooper Automatic - ₹16,000/day</option>
                                     </optgroup>
                                     <optgroup label="2-Wheeler Bikes">
-                                        <option value="Yamaha Fascino 125 - ₹600/day">Yamaha Fascino 125 - ₹600/day
-                                        </option>
-                                        <option value="Royal Enfield Hunter 350 - ₹2,000/day">Royal Enfield Hunter 350 -
-                                            ₹2,000/day</option>
-                                        <option value="Royal Enfield Bullet 350 - ₹2,000/day">Royal Enfield Bullet 350 -
-                                            ₹2,000/day</option>
+                                        <option value="Yamaha Fascino 125 - ₹600/day">Yamaha Fascino 125 - ₹600/day</option>
+                                        <option value="Royal Enfield Hunter 350 - ₹2,000/day">Royal Enfield Hunter 350 - ₹2,000/day</option>
+                                        <option value="Royal Enfield Bullet 350 - ₹2,000/day">Royal Enfield Bullet 350 - ₹2,000/day</option>
                                     </optgroup>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="name">Full Name</label>
-                                <input type="text" id="name" placeholder="Your full name" required minlength="2"
-                                    maxlength="50">
+                                <input type="text" id="name" placeholder="Your full name" required minlength="2" maxlength="50">
                             </div>
                             <div class="form-group">
                                 <label for="phone">Phone Number</label>
@@ -1136,22 +1099,19 @@
     <section id="seo-dabolim" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Car Rental Near <em>Dabolim
-                        Airport</em></h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Car Rental Near <em>Dabolim Airport</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Convenient Airport Pickup &amp; Drop</h3>
                 <p>We provide prompt airport pickup at Dabolim International Airport, helping travellers reach their
-                    destination comfortably. Choose from economy cars to luxury sedans and SUVs with flexible duration
-                    options.</p>
+                    destination comfortably. Choose from economy cars to luxury sedans and SUVs with flexible duration options.</p>
             </div>
         </div>
     </section>
     <section id="seo-selfdrive-north" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Self Drive Cars in <em>North
-                        Goa</em></h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Self Drive Cars in <em>North Goa</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Popular Self-Drive Routes &amp; Tips</h3>
@@ -1163,8 +1123,7 @@
     <section id="seo-bike-baga" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Bike Rental in <em>Baga Beach</em>
-                </h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Bike Rental in <em>Baga Beach</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Scooters &amp; Motorbikes for Beach Rides</h3>
@@ -1176,8 +1135,7 @@
     <section id="seo-popular-cars" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Most Rented <em>Vehicles in
-                        Goa</em></h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Most Rented <em>Vehicles in Goa</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Top-Rated Car Rentals in Goa</h3>
@@ -1189,9 +1147,7 @@
     <section id="seo-affordable-cars" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Affordable Cars from
-                    <em>₹1,200/day</em>
-                </h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Affordable Cars from <em>₹1,200/day</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Best Value Self-Drive Cars in Goa</h3>
@@ -1215,8 +1171,7 @@
     <section id="seo-airport-pickup" class="section seo-section">
         <div class="container">
             <div class="section-masthead">
-                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Airport Pickup at <em>Dabolim</em>
-                </h2>
+                <h2 class="masthead-title" style="font-size:clamp(1.4rem,3vw,2rem);">Airport Pickup at <em>Dabolim</em></h2>
             </div>
             <div class="seo-content" data-scroll-reveal>
                 <h3>Convenient Airport Transfer Services</h3>
@@ -1241,8 +1196,7 @@
                             alt="North Goa beach drive" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">Top Beaches to Drive in North Goa</h3>
-                        <p class="blog-excerpt">Plan a scenic coastal drive visiting the best beaches. Tips on parking
-                            and timing.</p>
+                        <p class="blog-excerpt">Plan a scenic coastal drive visiting the best beaches. Tips on parking and timing.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1252,8 +1206,7 @@
                             alt="Dabolim airport car rental" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">How to Rent a Car Near Dabolim Airport</h3>
-                        <p class="blog-excerpt">Step-by-step guide to renting a car at Dabolim Airport with local tips.
-                        </p>
+                        <p class="blog-excerpt">Step-by-step guide to renting a car at Dabolim Airport with local tips.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1263,8 +1216,7 @@
                             alt="Self drive car Goa" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">Self Drive Tips for First Timers</h3>
-                        <p class="blog-excerpt">Essential tips and local driving rules to help first-time self-drivers
-                            feel confident.</p>
+                        <p class="blog-excerpt">Essential tips and local driving rules to help first-time self-drivers feel confident.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1274,8 +1226,7 @@
                             alt="Bike near Baga beach" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">Best Bike Routes Around Baga</h3>
-                        <p class="blog-excerpt">Short and scenic bike routes around Baga Beach — ideal for sunset rides.
-                        </p>
+                        <p class="blog-excerpt">Short and scenic bike routes around Baga Beach — ideal for sunset rides.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1285,8 +1236,7 @@
                             alt="Luxury car Goa" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">Luxury Car Rentals: When It's Worth It</h3>
-                        <p class="blog-excerpt">When to choose a luxury car in Goa — special occasions and ultimate
-                            comfort.</p>
+                        <p class="blog-excerpt">When to choose a luxury car in Goa — special occasions and ultimate comfort.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1296,8 +1246,7 @@
                             alt="Family MPV Goa" loading="lazy"></div>
                     <div class="blog-text">
                         <h3 class="blog-title">Family-Friendly Routes &amp; 7-Seater Tips</h3>
-                        <p class="blog-excerpt">How to plan a family road trip in Goa, choosing the right MPV and
-                            packing tips.</p>
+                        <p class="blog-excerpt">How to plan a family road trip in Goa, choosing the right MPV and packing tips.</p>
                         <a href="#booking" class="blog-link">Read More <i class="fas fa-arrow-right"></i></a>
                     </div>
                 </article>
@@ -1333,8 +1282,7 @@
                 <div class="footer-col">
                     <h3>Our Location</h3>
                     <p>Near Madgao Railway Station<br>Madgaon, Goa 403601, India</p>
-                    <p><strong>Service Areas:</strong><br>North &amp; South Goa · Dabolim Airport<br>Panaji · Vasco Da
-                        Gama</p>
+                    <p><strong>Service Areas:</strong><br>North &amp; South Goa · Dabolim Airport<br>Panaji · Vasco Da Gama</p>
                 </div>
                 <div class="footer-col">
                     <h3>Hours</h3>
