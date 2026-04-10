@@ -13,9 +13,9 @@ let imagesLazyLoaded = false;
 // ===== URL Router =====
 // Maps URL path → section to show
 const ROUTES = {
-    '/':        null,       // show all
-    '/cars':    'vehicles',
-    '/bikes':   'bikes',
+    '/': null,       // show all
+    '/cars': 'vehicles',
+    '/bikes': 'bikes',
 };
 
 /**
@@ -27,8 +27,8 @@ function navigate(section, event) {
     if (event) event.preventDefault();
 
     const path = section === 'vehicles' ? '/cars'
-               : section === 'bikes'    ? '/bikes'
-               : '/';
+        : section === 'bikes' ? '/bikes'
+            : '/';
 
     // Push clean URL into browser history
     history.pushState({ section }, '', path);
@@ -63,13 +63,13 @@ function initRouter() {
 function showSection(section, skipScroll = false) {
     currentSection = section;
     const vehiclesSection = document.getElementById('vehicles');
-    const bikesSection    = document.getElementById('bikes');
+    const bikesSection = document.getElementById('bikes');
 
     if (!vehiclesSection || !bikesSection) return;
 
     if (section === 'vehicles') {
         vehiclesSection.style.display = 'block';
-        bikesSection.style.display    = 'none';
+        bikesSection.style.display = 'none';
         vehiclesSection.classList.add('section-fade-in');
         if (!skipScroll) {
             setTimeout(() => {
@@ -79,7 +79,7 @@ function showSection(section, skipScroll = false) {
         }
     } else if (section === 'bikes') {
         vehiclesSection.style.display = 'none';
-        bikesSection.style.display    = 'block';
+        bikesSection.style.display = 'block';
         bikesSection.classList.add('section-fade-in');
         if (!skipScroll) {
             setTimeout(() => {
@@ -90,7 +90,7 @@ function showSection(section, skipScroll = false) {
     } else {
         // null → show all sections (home / default)
         vehiclesSection.style.display = 'block';
-        bikesSection.style.display    = 'block';
+        bikesSection.style.display = 'block';
         vehiclesSection.classList.remove('section-fade-out');
         bikesSection.classList.remove('section-fade-out');
         currentSection = null;
@@ -155,25 +155,43 @@ Could you please help me with:
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
 }
 
+const GOOGLE_ADS_CONVERSION_SEND_TO = 'AW-17953205126/TCzkCKG-mZgcEIbX4PBC';
+
+function sendGoogleAdsConversion() {
+    if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+            send_to: GOOGLE_ADS_CONVERSION_SEND_TO
+        });
+    }
+}
+
+function initializePhoneClickTracking() {
+    document.querySelectorAll('a[href^="tel:"]').forEach(link => {
+        link.addEventListener('click', () => {
+            sendGoogleAdsConversion();
+        });
+    });
+}
+
 // ===== Booking Form =====
 function submitBooking() {
-    const vehicle   = document.getElementById('vehicle')?.value  || '';
-    const name      = document.getElementById('name')?.value     || '';
-    const phone     = document.getElementById('phone')?.value    || '';
-    const email     = document.getElementById('email')?.value    || '';
-    const pickup    = document.getElementById('pickup')?.value   || '';
-    const dropoff   = document.getElementById('dropoff')?.value  || '';
-    const location  = document.getElementById('location')?.value || '';
-    const requests  = document.getElementById('requests')?.value || '';
+    const vehicle = document.getElementById('vehicle')?.value || '';
+    const name = document.getElementById('name')?.value || '';
+    const phone = document.getElementById('phone')?.value || '';
+    const email = document.getElementById('email')?.value || '';
+    const pickup = document.getElementById('pickup')?.value || '';
+    const dropoff = document.getElementById('dropoff')?.value || '';
+    const location = document.getElementById('location')?.value || '';
+    const requests = document.getElementById('requests')?.value || '';
 
     const errors = [];
-    if (!name || name.length < 2)    errors.push('Name must be at least 2 characters');
-    if (!phone)                       errors.push('Phone number is required');
+    if (!name || name.length < 2) errors.push('Name must be at least 2 characters');
+    if (!phone) errors.push('Phone number is required');
     if (!email || !email.includes('@')) errors.push('Valid email is required');
-    if (!vehicle)                     errors.push('Please select a vehicle');
-    if (!pickup)                      errors.push('Pickup date is required');
-    if (!dropoff)                     errors.push('Drop-off date is required');
-    if (!location)                    errors.push('Pickup location is required');
+    if (!vehicle) errors.push('Please select a vehicle');
+    if (!pickup) errors.push('Pickup date is required');
+    if (!dropoff) errors.push('Drop-off date is required');
+    if (!location) errors.push('Pickup location is required');
 
     const messagesDiv = document.getElementById('booking-messages');
     if (errors.length > 0) {
@@ -189,7 +207,7 @@ function submitBooking() {
     }
 
     const days = Math.ceil((new Date(dropoff) - new Date(pickup)) / 86400000);
-    const fmt  = d => { const dt = new Date(d); return `${String(dt.getDate()).padStart(2,'0')}-${String(dt.getMonth()+1).padStart(2,'0')}-${dt.getFullYear()}`; };
+    const fmt = d => { const dt = new Date(d); return `${String(dt.getDate()).padStart(2, '0')}-${String(dt.getMonth() + 1).padStart(2, '0')}-${dt.getFullYear()}`; };
 
     const message = `🚗 *BOOKING REQUEST - NSZ Goa Ride*
 
@@ -218,6 +236,7 @@ Please confirm availability and total cost. Thank you!`;
         window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`, '_blank');
         document.getElementById('booking-form')?.reset();
         if (messagesDiv) messagesDiv.innerHTML = '';
+        window.location.href = 'thank-you.html';
     }, 500);
 }
 
@@ -234,7 +253,7 @@ function updateDarkModeIcon(isDark) {
     const icon = document.querySelector('#dark-mode-toggle i');
     if (!icon) return;
     icon.classList.toggle('fa-moon', !isDark);
-    icon.classList.toggle('fa-sun',  isDark);
+    icon.classList.toggle('fa-sun', isDark);
 }
 
 // ===== WhatsApp Links =====
@@ -253,6 +272,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeLazyLoading();
     initDarkMode();
     initializeWhatsAppLinks();
+    initializePhoneClickTracking();
 
     // Run router — reads current URL path on load
     initRouter();
@@ -267,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Mobile menu toggle
     const mobileMenu = document.getElementById('mobile-menu');
-    const navMenu    = document.getElementById('nav-menu');
+    const navMenu = document.getElementById('nav-menu');
     if (mobileMenu && navMenu) {
         mobileMenu.addEventListener('click', () => {
             mobileMenu.classList.toggle('active');
@@ -304,12 +324,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const clean = e.target.value.replace(/\D/g, '');
             const valid = clean.length === 12 && clean.startsWith('91');
             e.target.style.borderColor = (clean.length > 0 && !valid) ? '#e53e3e' : '';
-            e.target.style.boxShadow   = (clean.length > 0 && !valid) ? '0 0 0 3px rgba(229,62,62,.1)' : '';
+            e.target.style.boxShadow = (clean.length > 0 && !valid) ? '0 0 0 3px rgba(229,62,62,.1)' : '';
         });
     }
 
     // Date validation
-    const pickupInput  = document.getElementById('pickup');
+    const pickupInput = document.getElementById('pickup');
     const dropoffInput = document.getElementById('dropoff');
     if (pickupInput && dropoffInput) {
         const today = new Date().toISOString().split('T')[0];
@@ -342,7 +362,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                entry.target.style.opacity   = '1';
+                entry.target.style.opacity = '1';
                 entry.target.style.transform = 'translateY(0)';
                 revealObs.unobserve(entry.target);
             }
@@ -350,7 +370,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
 
     document.querySelectorAll('[data-scroll-reveal]').forEach(el => {
-        el.style.opacity   = '0';
+        el.style.opacity = '0';
         el.style.transform = 'translateY(30px)';
         el.style.transition = 'opacity .6s ease, transform .6s ease';
         revealObs.observe(el);
